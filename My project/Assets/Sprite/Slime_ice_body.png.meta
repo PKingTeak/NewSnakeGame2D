@@ -1,16 +1,10 @@
 fileFormatVersion: 2
-guid: 7ba73e0a3290b454c8ee9d6dfc9d90cf
+guid: d8f2ddd53b83266409b0c34c64395b9f
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1070341608600882768
-    second: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_0
-  - first:
-      213: -4866596101640497437
-    second: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_1
-  - first:
-      213: 4487649109236502068
-    second: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_2
+      213: 3433343698018100192
+    second: Slime_ice_body_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_0
+      name: Slime_ice_body_0
       rect:
         serializedVersion: 2
-        x: 109
-        y: 69
-        width: 132
-        height: 150
+        x: 29
+        y: 7
+        width: 70
+        height: 81
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -134,52 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0b136075af16521f0800000000000000
-      internalID: -1070341608600882768
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_1
-      rect:
-        serializedVersion: 2
-        x: 379
-        y: 69
-        width: 131
-        height: 150
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3e6da6041a0667cb0800000000000000
-      internalID: -4866596101640497437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_2
-      rect:
-        serializedVersion: 2
-        x: 641
-        y: 69
-        width: 132
-        height: 151
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 43ec3a89615574e30800000000000000
-      internalID: 4487649109236502068
+      spriteID: 0e3e13817efa5af20800000000000000
+      internalID: 3433343698018100192
       vertices: []
       indices: 
       edges: []
@@ -198,9 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_0: -1070341608600882768
-      Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_1: -4866596101640497437
-      Gemini_Generated_Image_dkdynldkdynldkdy-removebg-preview_2: 4487649109236502068
+      Slime_ice_body_0: 3433343698018100192
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

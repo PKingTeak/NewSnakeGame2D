@@ -150,6 +150,6 @@ MonoBehaviour:
   foodType: 0
   spriteRenderer: {fileID: 5194818188902381886}
   foodSprite:
-  - {fileID: -1070341608600882768, guid: 7ba73e0a3290b454c8ee9d6dfc9d90cf, type: 3}
-  - {fileID: -4866596101640497437, guid: 7ba73e0a3290b454c8ee9d6dfc9d90cf, type: 3}
-  - {fileID: 4487649109236502068, guid: 7ba73e0a3290b454c8ee9d6dfc9d90cf, type: 3}
+  - {fileID: -1302256794125333049, guid: 31f903b75fe50ac41bff5a4572b9edd5, type: 3}
+  - {fileID: -2364043785303386467, guid: 7fb178c357637854f9dab7211b95ec1a, type: 3}
+  - {fileID: 5545875018123877878, guid: d8dd288cbf88ab147b4a4f7fe899692e, type: 3}
