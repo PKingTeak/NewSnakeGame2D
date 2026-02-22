@@ -7,8 +7,6 @@ public class ScoreUI : BaseUI
     private TextMeshProUGUI scoreText;
     public void Gettime(float time)
     {
-        
-        timeText.text = time;
 
     }
     
