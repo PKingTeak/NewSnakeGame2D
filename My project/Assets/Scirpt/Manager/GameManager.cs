@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
-    public static GameManager Instance;
+    
 
     [Header("Food Setup")]
     public GameObject foodPrefab; // 유니티 인스펙터에서 Food 프리팹 하나만 연결하세요.
@@ -14,7 +14,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+ 
+    
     }
 
     private void Start()
