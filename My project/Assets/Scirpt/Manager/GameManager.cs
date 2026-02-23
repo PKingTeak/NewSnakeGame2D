@@ -11,12 +11,9 @@ public class GameManager : MonoSingleton<GameManager>
     public BoxCollider2D gridArea; // 먹이가 생성될 영역 (배경)
 
     private int _score = 0;
+    private float _time = 0;
 
-    private void Awake()
-    {
- 
-    
-    }
+  
 
     private void Start()
     {
@@ -50,9 +47,14 @@ public class GameManager : MonoSingleton<GameManager>
         }
     }
 
+    public void Update()
+    {
+        _time += Time.deltaTime;
+        UIManager.Instance.UpdateTime(_time);
+    }
     public void AddScore(int amount)
     {
         _score += amount;
-        Debug.Log($"Current Score: {_score}");
+        UIManager.Instance.UpdateScore(amount);
     }
 }

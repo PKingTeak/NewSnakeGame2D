@@ -1,9 +1,26 @@
 using UnityEngine;
 
-public class UIManager : MonoBehaviour
+public class UIManager :MonoSingleton<UIManager>
 {
-    private void Awake()
+    [SerializeField]
+    private ScoreUI scoreUI;
+   
+
+    public void Init()
     {
-        //여기에 아러
+        scoreUI.Init();
+        scoreUI.Show();
     }
+
+    public void UpdateScore(int _score)
+    {
+        scoreUI.SetScore(_score);
+    }
+
+    public void UpdateTime(float _time)
+    {
+        scoreUI.SetTime(_time);
+    }
+    
+
 }

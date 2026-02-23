@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEditor.Analytics;
 using UnityEngine;
 
-public class BaseUI : MonoBehaviour
+public abstract class BaseUI : MonoBehaviour
 {
     protected CanvasGroup canvasGroup;
     public bool isActive { get; private set; }
@@ -13,7 +13,7 @@ public class BaseUI : MonoBehaviour
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }
-    protected void Init()
+    public void Init()
     {
         if (_isInitialized)
         {
@@ -25,7 +25,7 @@ public class BaseUI : MonoBehaviour
         
     }
 
-    protected virtual void Hide()
+    public virtual void Hide()
     {
         if (!_isInitialized)
         {
@@ -51,7 +51,7 @@ public class BaseUI : MonoBehaviour
         canvasGroup.blocksRaycasts = value;
     }
 
-    protected void Show()
+    public void Show()
     {
         if (!_isInitialized)
         {
