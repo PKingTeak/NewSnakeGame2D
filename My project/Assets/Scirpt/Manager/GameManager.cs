@@ -1,24 +1,31 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class GameManager : MonoSingleton<GameManager>
+public class GameManager : MonoBehaviour
 {
-    
+    public static GameManager Instance;
 
     [Header("Food Setup")]
-    public GameObject foodPrefab; // 유니티 인스펙터에서 Food 프리팹 하나만 연결하세요.
-
-    public BoxCollider2D gridArea; // 먹이가 생성될 영역 (배경)
+    public GameObject foodPrefab;
+    public BoxCollider2D gridArea;
+    public int foodCount = 3; // 화면에 유지할 먹이 개수
 
     private int _score = 0;
-    private float _time = 0;
 
-  
+    private void Awake()
+    {
+        if (Instance == null) Instance = this;
+    }
 
     private void Start()
     {
-        if (gridArea != null) SpawnFood();
-        else Debug.LogError("Grid Area가 설정되지 않았습니다!");
+        if (gridArea != null)
+        {
+            for (int i = 0; i < foodCount; i++)
+            {
+                SpawnFood();
+            }
+        }
     }
 
     public void SpawnFood()
@@ -26,35 +33,38 @@ public class GameManager : MonoSingleton<GameManager>
         if (gridArea == null || foodPrefab == null) return;
 
         Bounds bounds = gridArea.bounds;
+        float padding = 1.5f;
+        Vector3 spawnPos = Vector3.zero;
+        bool isPosValid = false;
+        int attempts = 0;
 
-        // 맵 테두리 밖으로 나가지 않도록 1칸 정도의 여백(padding)을 줍니다.
-        float padding = 1.0f;
+        // [핵심] 빈 자리를 찾을 때까지 반복 (최대 20번 시도)
+        while (!isPosValid && attempts < 20)
+        {
+            float x = Mathf.Round(Random.Range(bounds.min.x + padding, bounds.max.x - padding));
+            float y = Mathf.Round(Random.Range(bounds.min.y + padding, bounds.max.y - padding));
+            spawnPos = new Vector3(x, y, 0);
 
-        // 랜덤 위치 계산 (여백 반영)
-        float x = Mathf.Round(Random.Range(bounds.min.x + padding, bounds.max.x - padding));
-        float y = Mathf.Round(Random.Range(bounds.min.y + padding, bounds.max.y - padding));
+            // 해당 좌표에 이미 콜라이더(먹이나 몸통)가 있는지 확인
+            Collider2D hit = Physics2D.OverlapPoint(spawnPos);
+            if (hit == null)
+            {
+                isPosValid = true;
+            }
+            attempts++;
+        }
 
-        // 하나의 프리팹만 생성
-        GameObject obj = Instantiate(foodPrefab, new Vector3(x, y, 0), Quaternion.identity);
-
-        // 생성된 먹이의 스크립트를 가져와서 랜덤 속성(불, 풀, 물) 부여
+        GameObject obj = Instantiate(foodPrefab, spawnPos, Quaternion.identity);
         Food foodScript = obj.GetComponent<Food>();
         if (foodScript != null)
         {
-            // 0:불, 1:풀, 2:물 중 하나로 랜덤 설정
-            FoodType randomType = (FoodType)Random.Range(0, 3);
-            foodScript.SetType(randomType);
+            foodScript.SetType((FoodType)Random.Range(0, 3));
         }
     }
 
-    public void Update()
-    {
-        _time += Time.deltaTime;
-        UIManager.Instance.UpdateTime(_time);
-    }
     public void AddScore(int amount)
     {
         _score += amount;
-        UIManager.Instance.UpdateScore(amount);
+        Debug.Log($"<color=yellow>Score: {_score}</color>"); // 점수 로그 확인
     }
 }

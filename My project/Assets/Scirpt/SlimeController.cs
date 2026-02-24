@@ -19,12 +19,10 @@ public class SlimeController : MonoBehaviour
     private Vector2 _inputDirection = Vector2.right;
     private float _timer;
     private SpriteRenderer _sr;
-    private Collider2D _headCollider;
 
     private void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
-        _headCollider = GetComponent<Collider2D>();
     }
 
     private void Start()
@@ -58,6 +56,7 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
+        // 180도 급회전 방지 로직 포함
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right) _inputDirection = Vector2.left;
@@ -66,17 +65,28 @@ public class SlimeController : MonoBehaviour
 
     private void UpdateGridLogic()
     {
-        // 1. 다음 이동할 '예정' 위치를 미리 계산합니다.
         Vector3 nextPos = _targetPositions[0] + (Vector3)_direction;
 
-        // 2. [핵심] 다음 위치가 맵 경계선 밖인지 체크합니다.
+        // [추가] 1. 경계선 밖으로 나갔는지 체크
         if (!IsInsideBoundary(nextPos))
         {
-            GameOver();
+            GameOver("경계선 밖으로 나감!");
             return;
         }
 
-        // 3. 맵 안이라면 마디들의 위치를 갱신합니다.
+        // [추가] 2. 자기 몸통에 부딪혔는지 체크 (좌표 기반)
+        // i=1부터 시작하여 머리 다음 마디부터 검사합니다.
+        for (int i = 1; i < _targetPositions.Count; i++)
+        {
+            // 다음 이동할 위치에 이미 몸통 마디가 있다면 게임 오버
+            if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.1f)
+            {
+                GameOver("자신의 몸에 부딪힘!");
+                return;
+            }
+        }
+
+        // 3. 마디 위치 갱신
         for (int i = _segments.Count - 1; i > 0; i--)
         {
             _targetPositions[i] = _targetPositions[i - 1];
@@ -88,16 +98,9 @@ public class SlimeController : MonoBehaviour
         else if (_direction == Vector2.left) _sr.flipX = false;
     }
 
-    // [핵심 함수] 현재 좌표가 GameManager의 gridArea 범위 안에 있는지 확인
     private bool IsInsideBoundary(Vector3 pos)
     {
-        if (GameManager.Instance.gridArea == null)
-        {
-            Debug.LogError("GameManager의 Grid Area가 비어있습니다!");
-            return true;
-        }
-
-        // 배경 BoxCollider2D의 영역(Bounds) 안에 좌표가 있는지 수학적으로 판단
+        if (GameManager.Instance.gridArea == null) return true;
         return GameManager.Instance.gridArea.bounds.Contains(pos);
     }
 
@@ -114,14 +117,9 @@ public class SlimeController : MonoBehaviour
     {
         if (babyPrefab == null) return;
 
+        // 마지막 마디의 현재 위치에 생성
         Vector3 spawnPos = _segments[_segments.Count - 1].position;
         Transform newBaby = Instantiate(babyPrefab, spawnPos, Quaternion.identity);
-
-        Collider2D babyCollider = newBaby.GetComponent<Collider2D>();
-        if (babyCollider != null && _headCollider != null)
-        {
-            Physics2D.IgnoreCollision(_headCollider, babyCollider);
-        }
 
         SpriteRenderer babySR = newBaby.GetComponent<SpriteRenderer>();
         if (babySR != null) babySR.sprite = babySlimeSprites[(int)type];
@@ -156,20 +154,20 @@ public class SlimeController : MonoBehaviour
         if (other.CompareTag("Food"))
         {
             Food food = other.GetComponent<Food>();
-            Grow(food.foodType);
-            GameManager.Instance.AddScore(10);
-            Destroy(other.gameObject);
-            GameManager.Instance.SpawnFood();
+            if (food != null)
+            {
+                Grow(food.foodType);
+                GameManager.Instance.AddScore(10);
+                Destroy(other.gameObject);
+                GameManager.Instance.SpawnFood();
+            }
         }
-        else if (other.CompareTag("Body")) // 이제 벽(Wall) 체크는 필요 없습니다.
-        {
-            GameOver();
-        }
+        // 이제 'Body' 태그 충돌은 UpdateGridLogic에서 좌표로 처리하므로 무시해도 안전합니다.
     }
 
-    private void GameOver()
+    private void GameOver(string reason)
     {
         Time.timeScale = 0;
-        Debug.Log("<color=red>GAME OVER!</color> 경계선 밖으로 나갔거나 몸에 닿았습니다.");
+        Debug.Log($"<color=red>GAME OVER!</color> {reason}");
     }
 }
