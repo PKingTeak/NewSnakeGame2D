@@ -13,6 +13,12 @@ public class UIManager :MonoSingleton<UIManager>
         scoreUI.Show();
     }
 
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Init();
+    }
     public void UpdateScore(int _score)
     {
         scoreUI.SetScore(_score);

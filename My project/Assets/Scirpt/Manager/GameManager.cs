@@ -1,16 +1,20 @@
 using UnityEngine;
-using System.Collections.Generic;
+using UnityEngine.Tilemaps; // 타일맵 시스템 사용
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("Tilemap Setup")]
+    public Tilemap groundTilemap; // '타일 배경' 오브젝트를 여기에 드래그하세요.
+    public LayerMask obstacleLayer; // 벽(Wall)과 지렁이(Snake) 레이어를 선택하세요.
+
     [Header("Food Setup")]
     public GameObject foodPrefab;
-    public BoxCollider2D gridArea;
-    public int foodCount = 3; // 화면에 유지할 먹이 개수
+    public int foodCount = 3;
 
     private int _score = 0;
+    private float time = 0.0f;
 
     private void Awake()
     {
@@ -19,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        if (gridArea != null)
+        if (groundTilemap != null)
         {
             for (int i = 0; i < foodCount; i++)
             {
@@ -28,43 +32,72 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        time += Time.deltaTime;
+        UIManager.Instance.UpdateTime(time);
+    }
+
     public void SpawnFood()
     {
-        if (gridArea == null || foodPrefab == null) return;
+        if (groundTilemap == null || foodPrefab == null) return;
 
-        Bounds bounds = gridArea.bounds;
-        float padding = 1.5f;
+        BoundsInt bounds = groundTilemap.cellBounds;
         Vector3 spawnPos = Vector3.zero;
         bool isPosValid = false;
         int attempts = 0;
 
-        // [핵심] 빈 자리를 찾을 때까지 반복 (최대 20번 시도)
-        while (!isPosValid && attempts < 20)
+        while (!isPosValid && attempts < 50)
         {
-            float x = Mathf.Round(Random.Range(bounds.min.x + padding, bounds.max.x - padding));
-            float y = Mathf.Round(Random.Range(bounds.min.y + padding, bounds.max.y - padding));
-            spawnPos = new Vector3(x, y, 0);
+            // 1. 타일 좌표계 기준으로 랜덤 좌표 선택
+            int x = Random.Range(bounds.xMin, bounds.xMax);
+            int y = Random.Range(bounds.yMin, bounds.yMax);
+            Vector3Int cellPos = new Vector3Int(x, y, 0);
 
-            // 해당 좌표에 이미 콜라이더(먹이나 몸통)가 있는지 확인
-            Collider2D hit = Physics2D.OverlapPoint(spawnPos);
-            if (hit == null)
+            if (groundTilemap.HasTile(cellPos))
             {
-                isPosValid = true;
+                spawnPos = groundTilemap.GetCellCenterWorld(cellPos);
+
+                // 2. 해당 위치에 무엇이 있는지 확인
+                Collider2D hit = Physics2D.OverlapPoint(spawnPos);
+
+                // [수정] 아무것도 없거나(null), 
+                // 혹은 장애물 레이어에 걸리지 않으면서 태그가 "Food"가 아닌 경우에만 유효
+                if (hit == null)
+                {
+                    isPosValid = true;
+                }
+                else if (hit.CompareTag("Food") || hit.CompareTag("Player") || hit.CompareTag("Body"))
+                {
+                    // 이미 먹이가 있거나, 지렁이(머리/몸통)가 있는 칸이면 다시 시도
+                    isPosValid = false;
+                }
             }
             attempts++;
         }
 
-        GameObject obj = Instantiate(foodPrefab, spawnPos, Quaternion.identity);
-        Food foodScript = obj.GetComponent<Food>();
-        if (foodScript != null)
+        if (isPosValid)
         {
-            foodScript.SetType((FoodType)Random.Range(0, 3));
+            GameObject obj = Instantiate(foodPrefab, spawnPos, Quaternion.identity);
+            Food foodScript = obj.GetComponent<Food>();
+            if (foodScript != null)
+            {
+                foodScript.SetType((FoodType)Random.Range(0, 3));
+            }
         }
+    }
+
+
+    public void Reset()
+    {
+        _score = 0;
+        time = 0.0f;
     }
 
     public void AddScore(int amount)
     {
         _score += amount;
-        Debug.Log($"<color=yellow>Score: {_score}</color>"); // 점수 로그 확인
+        UIManager.Instance.UpdateScore(_score);
+        Debug.Log($"<color=yellow>Score: {_score}</color>");
     }
 }

@@ -32,8 +32,15 @@ public class SlimeController : MonoBehaviour
         _babyTypes.Clear();
         _targetPositions.Clear();
 
+        // [핵심 추가] 시작 위치를 타일맵의 그리드 중앙에 딱 맞춤
+        if (GameManager.Instance != null && GameManager.Instance.groundTilemap != null)
+        {
+            Vector3Int cellPos = GameManager.Instance.groundTilemap.WorldToCell(transform.position);
+            transform.position = GameManager.Instance.groundTilemap.GetCellCenterWorld(cellPos);
+        }
+
         _segments.Add(this.transform);
-        _targetPositions.Add(this.transform.position);
+        _targetPositions.Add(this.transform.position); // 이제 정렬된 좌표가 들어감
         _babyTypes.Add((FoodType)(-1));
 
         if (headSprite != null) _sr.sprite = headSprite;
@@ -56,7 +63,6 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
-        // 180도 급회전 방지 로직 포함
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right) _inputDirection = Vector2.left;
@@ -65,20 +71,19 @@ public class SlimeController : MonoBehaviour
 
     private void UpdateGridLogic()
     {
+        // 다음 이동할 월드 좌표 계산 (타일 한 칸 이동)
         Vector3 nextPos = _targetPositions[0] + (Vector3)_direction;
 
-        // [추가] 1. 경계선 밖으로 나갔는지 체크
-        if (!IsInsideBoundary(nextPos))
+        // 1. 타일맵 경계 및 장애물 체크
+        if (!IsSafePos(nextPos))
         {
-            GameOver("경계선 밖으로 나감!");
+            GameOver("경계 밖이거나 벽에 부딪힘!");
             return;
         }
 
-        // [추가] 2. 자기 몸통에 부딪혔는지 체크 (좌표 기반)
-        // i=1부터 시작하여 머리 다음 마디부터 검사합니다.
+        // 2. 자기 몸통 충돌 체크
         for (int i = 1; i < _targetPositions.Count; i++)
         {
-            // 다음 이동할 위치에 이미 몸통 마디가 있다면 게임 오버
             if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.1f)
             {
                 GameOver("자신의 몸에 부딪힘!");
@@ -86,7 +91,7 @@ public class SlimeController : MonoBehaviour
             }
         }
 
-        // 3. 마디 위치 갱신
+        // 3. 마디 위치 갱신 (뒤에서부터 앞으로 전달)
         for (int i = _segments.Count - 1; i > 0; i--)
         {
             _targetPositions[i] = _targetPositions[i - 1];
@@ -94,14 +99,26 @@ public class SlimeController : MonoBehaviour
 
         _targetPositions[0] = nextPos;
 
+        // 시각적 방향 전환
         if (_direction == Vector2.right) _sr.flipX = true;
         else if (_direction == Vector2.left) _sr.flipX = false;
     }
 
-    private bool IsInsideBoundary(Vector3 pos)
+    // 타일맵과 레이어를 활용한 안전 검사
+    private bool IsSafePos(Vector3 pos)
     {
-        if (GameManager.Instance.gridArea == null) return true;
-        return GameManager.Instance.gridArea.bounds.Contains(pos);
+        var gm = GameManager.Instance;
+        if (gm == null || gm.groundTilemap == null) return true;
+
+        // 타일 좌표로 변환하여 해당 위치에 바닥 타일이 있는지 확인
+        Vector3Int cellPos = gm.groundTilemap.WorldToCell(pos);
+        if (!gm.groundTilemap.HasTile(cellPos)) return false;
+
+        // 장애물 레이어(Wall 등)와 충돌하는지 확인
+        Collider2D hit = Physics2D.OverlapPoint(pos, gm.obstacleLayer);
+        if (hit != null) return false;
+
+        return true;
     }
 
     private void SmoothMove()
@@ -117,7 +134,6 @@ public class SlimeController : MonoBehaviour
     {
         if (babyPrefab == null) return;
 
-        // 마지막 마디의 현재 위치에 생성
         Vector3 spawnPos = _segments[_segments.Count - 1].position;
         Transform newBaby = Instantiate(babyPrefab, spawnPos, Quaternion.identity);
 
@@ -162,7 +178,6 @@ public class SlimeController : MonoBehaviour
                 GameManager.Instance.SpawnFood();
             }
         }
-        // 이제 'Body' 태그 충돌은 UpdateGridLogic에서 좌표로 처리하므로 무시해도 안전합니다.
     }
 
     private void GameOver(string reason)
