@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor.Analytics;
 using UnityEngine;
 
 public abstract class BaseUI : MonoBehaviour
@@ -8,11 +6,12 @@ public abstract class BaseUI : MonoBehaviour
     public bool isActive { get; private set; }
 
     protected bool _isInitialized = false;
-    
+
     private void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
     }
+
     public void Init()
     {
         if (_isInitialized)
@@ -22,7 +21,6 @@ public abstract class BaseUI : MonoBehaviour
 
         OnInitilze();
         _isInitialized = true;
-        
     }
 
     public virtual void Hide()
@@ -33,11 +31,9 @@ public abstract class BaseUI : MonoBehaviour
         }
 
         SetCanvsState(_alpha: 0f, _interactable: false, _blocksRaycasts: false);
-
         isActive = false;
         OnHide();
-        _isInitialized = false;
-
+        gameObject.SetActive(false);
     }
 
     public void Interactable(bool value)
@@ -51,15 +47,17 @@ public abstract class BaseUI : MonoBehaviour
         canvasGroup.blocksRaycasts = value;
     }
 
-    public void Show()
+    public virtual void Show()
     {
         if (!_isInitialized)
         {
             Init();
         }
-        this.gameObject.SetActive(true);
 
-        
+        gameObject.SetActive(true);
+        SetCanvsState(_alpha: 1f, _interactable: true, _blocksRaycasts: true);
+        isActive = true;
+        OnShow();
     }
 
     protected void SetCanvsState(float _alpha, bool _interactable, bool _blocksRaycasts)
@@ -74,7 +72,7 @@ public abstract class BaseUI : MonoBehaviour
         canvasGroup.blocksRaycasts = _blocksRaycasts;
     }
 
-    protected virtual void OnInitilze() { } //초기화 해야 하는것들 켤때 말고 
-    protected virtual void OnShow() { } //보여줄때 초기화 할것들
-    protected virtual void OnHide() { } //소멸할때 해제해야 하는것들 
+    protected virtual void OnInitilze() { }
+    protected virtual void OnShow() { }
+    protected virtual void OnHide() { }
 }
