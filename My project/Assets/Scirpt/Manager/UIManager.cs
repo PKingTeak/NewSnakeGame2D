@@ -1,54 +1,212 @@
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIManager :MonoSingleton<UIManager>
+public class UIManager : MonoSingleton<UIManager>
 {
-    [SerializeField]
-    private ScoreUI scoreUI;
-    [SerializeField]
-    private PopupUI popupUI;
+    [Header("Gameplay UI")]
+    [SerializeField] private ScoreUI scoreUI;
+    [SerializeField] private PopupUI popupUI;
+
+    [Header("Main UI")]
+    [SerializeField] private MainMenuUI mainMenuUI;
+    [SerializeField] private ShopUI shopUI;
+
+    [Header("Modal")]
+    [SerializeField] private Image modalBlocker;
 
     public void Init()
     {
-        scoreUI.Init();
-        scoreUI.Show();
+        InitGameplayUI();
+        InitMainUI();
+        SetupModalBlocker();
     }
-
 
     protected override void Awake()
     {
         base.Awake();
         Init();
     }
+
+    private void InitGameplayUI()
+    {
+        if (scoreUI != null)
+        {
+            scoreUI.Init();
+            scoreUI.Show();
+        }
+
+        if (popupUI != null)
+        {
+            popupUI.Init();
+            popupUI.Hide();
+        }
+    }
+
+    private void InitMainUI()
+    {
+        if (mainMenuUI == null)
+        {
+            return;
+        }
+
+        mainMenuUI.Init();
+        mainMenuUI.SetCallbacks(OnClickStartGame, OpenShop, OnClickSetting, OnClickQuit);
+        mainMenuUI.Show();
+
+        if (shopUI != null)
+        {
+            shopUI.Init();
+            shopUI.SetOnClose(CloseShop);
+            shopUI.Hide();
+        }
+    }
+
+    private void SetupModalBlocker()
+    {
+        if (modalBlocker != null)
+        {
+            modalBlocker.gameObject.SetActive(false);
+            modalBlocker.raycastTarget = true;
+            return;
+        }
+
+        Canvas rootCanvas = FindFirstObjectByType<Canvas>();
+        if (rootCanvas == null)
+        {
+            return;
+        }
+
+        GameObject blockerObject = new GameObject("ModalBlocker", typeof(RectTransform), typeof(Image));
+        blockerObject.transform.SetParent(rootCanvas.transform, false);
+
+        RectTransform rect = blockerObject.GetComponent<RectTransform>();
+        rect.anchorMin = Vector2.zero;
+        rect.anchorMax = Vector2.one;
+        rect.offsetMin = Vector2.zero;
+        rect.offsetMax = Vector2.zero;
+        rect.SetSiblingIndex(rootCanvas.transform.childCount - 1);
+
+        modalBlocker = blockerObject.GetComponent<Image>();
+        modalBlocker.color = new Color(0f, 0f, 0f, 0.45f);
+        modalBlocker.raycastTarget = true;
+        modalBlocker.gameObject.SetActive(false);
+    }
+
     public void UpdateScore(int _score)
     {
+        if (scoreUI == null)
+        {
+            return;
+        }
+
         scoreUI.SetScore(_score);
     }
 
     public void UpdateTime(float _time)
     {
+        if (scoreUI == null)
+        {
+            return;
+        }
+
         scoreUI.SetTime(_time);
+    }
+
+    public void OpenShop()
+    {
+        if (shopUI == null)
+        {
+            return;
+        }
+
+        SetModal(true);
+        shopUI.Show();
+
+        if (mainMenuUI != null)
+        {
+            mainMenuUI.Interactable(false);
+        }
+    }
+
+    public void CloseShop()
+    {
+        if (shopUI != null)
+        {
+            shopUI.Hide();
+        }
+
+        if (mainMenuUI != null)
+        {
+            mainMenuUI.Interactable(true);
+        }
+
+        SetModal(false);
+    }
+
+    private void SetModal(bool value)
+    {
+        if (modalBlocker == null)
+        {
+            return;
+        }
+
+        modalBlocker.gameObject.SetActive(value);
+    }
+
+    private void OnClickStartGame()
+    {
+        if (mainMenuUI != null)
+        {
+            mainMenuUI.Hide();
+        }
+
+        Time.timeScale = 1f;
+    }
+
+    private void OnClickSetting()
+    {
+        ShowSimpleMessage("ÏÑ§Ï†ï", "ÏÑ§Ï†ï UIÎäî ÏïÑÏßÅ Ï§ÄÎπÑ Ï§ëÏûÖÎãàÎã§.");
+    }
+
+    private void OnClickQuit()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void ShowGameOverPopup(int _score, float _time, System.Action onRestart, System.Action onExit)
     {
-        string title = "∞‘¿” ø¿πˆ";
-        string message = $"¡°ºˆ : {_score}\nΩ√∞£ : {_time:0.00}";
+        if (popupUI == null)
+        {
+            return;
+        }
+
+        string title = "Í≤åÏûÑ Ïò§Î≤Ñ";
+        string message = $"Ï†êÏàò : {_score}\nÏãúÍ∞Ñ : {_time:0.00}";
 
         popupUI.ShowChoice(
-             title,
-             message,
-             "¿ÁΩ√¿€",
-             onRestart,
-             "≥™∞°±‚",
-             onExit,
-             showCloseButton: false
-         );
+            title,
+            message,
+            "Ïû¨ÏãúÏûë",
+            onRestart,
+            "ÎÇòÍ∞ÄÍ∏∞",
+            onExit,
+            showCloseButton: false
+        );
+        popupUI.Show();
     }
 
     public void ShowSimpleMessage(string title, string message)
     {
-        popupUI.ShowMessage(title, message);
-    }
-    
+        if (popupUI == null)
+        {
+            return;
+        }
 
+        popupUI.ShowMessage(title, message);
+        popupUI.Show();
+    }
 }
