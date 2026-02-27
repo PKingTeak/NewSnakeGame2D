@@ -9,6 +9,7 @@ public class SlimeController : MonoBehaviour
 
     [Header("Settings")]
     public float moveInterval = 0.2f;
+    public float moveSpeed = 0.02f;
     public Transform babyPrefab;
 
     private List<Transform> _segments = new List<Transform>();
@@ -144,7 +145,9 @@ public class SlimeController : MonoBehaviour
         _targetPositions.Add(spawnPos);
         _babyTypes.Add(type);
 
+        CalSpeed();
         CheckCombo();
+
     }
 
     private void CheckCombo()
@@ -184,5 +187,15 @@ public class SlimeController : MonoBehaviour
     {
         Time.timeScale = 0;
         Debug.Log($"<color=red>GAME OVER!</color> {reason}");
+    }
+
+    private void CalSpeed()
+    {
+        moveInterval -= moveSpeed;
+        if (moveInterval <= 0.1)
+        {
+            moveInterval -= Mathf.Clamp01(moveSpeed);
+        }
+
     }
 }

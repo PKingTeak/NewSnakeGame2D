@@ -2133,6 +2133,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreUI: {fileID: 900631171}
   popupUI: {fileID: 0}
+  mainMenuUI: {fileID: 0}
+  shopUI: {fileID: 0}
+  modalBlocker: {fileID: 0}
+  fadeUI: {fileID: 3269424734861146323, guid: e635438243637af49b95f975199d4f1e, type: 3}
 --- !u!224 &900631169 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1808774122229550199, guid: 7cb1902d577024b47b75992b16149ed8, type: 3}

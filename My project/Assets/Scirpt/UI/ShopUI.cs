@@ -2,6 +2,21 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
+
+public enum ItemType
+{ 
+    SlimeHead,
+    Map,
+}
+
+public struct ItemData
+{
+    [SerializeField]public string Name;
+    [SerializeField] public string ItemInfo;
+    [SerializeField] public Sprite Itemsprite;
+    [SerializeField] ItemType Type;
+}
 
 public class ShopUI : BaseUI
 {
@@ -11,6 +26,8 @@ public class ShopUI : BaseUI
 
     [Header("Buttons")]
     [SerializeField] private Button closeButton;
+
+    [SerializeField] private Dictionary<ItemType, ItemData> ItemDictionary = new();
 
     private Action _onClose;
 

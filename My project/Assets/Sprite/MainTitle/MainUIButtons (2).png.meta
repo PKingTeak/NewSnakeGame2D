@@ -1,0 +1,598 @@
+fileFormatVersion: 2
+guid: 60942cb695a894d4db573daa3222b913
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -2617119635617510032
+    second: MainUIButtons (2)_0
+  - first:
+      213: -1758851987529708313
+    second: MainUIButtons (2)_1
+  - first:
+      213: -8440821540077081632
+    second: MainUIButtons (2)_2
+  - first:
+      213: 7976798517430169589
+    second: MainUIButtons (2)_3
+  - first:
+      213: -214953275391174057
+    second: MainUIButtons (2)_4
+  - first:
+      213: -8721944897823767240
+    second: MainUIButtons (2)_5
+  - first:
+      213: 5599881569062801584
+    second: MainUIButtons (2)_6
+  - first:
+      213: -6490194335511827143
+    second: MainUIButtons (2)_7
+  - first:
+      213: 2729845443765030011
+    second: MainUIButtons (2)_8
+  - first:
+      213: -2286637338204187114
+    second: MainUIButtons (2)_9
+  - first:
+      213: 1951717054168740718
+    second: MainUIButtons (2)_10
+  - first:
+      213: 4139524417587068227
+    second: MainUIButtons (2)_11
+  - first:
+      213: 6167563036074965504
+    second: MainUIButtons (2)_12
+  - first:
+      213: -2251190686180606701
+    second: MainUIButtons (2)_13
+  - first:
+      213: -2222206133290781057
+    second: MainUIButtons (2)_14
+  - first:
+      213: -4080519123250466560
+    second: MainUIButtons (2)_15
+  - first:
+      213: 714932070469167694
+    second: MainUIButtons (2)_16
+  - first:
+      213: 4384580231712161098
+    second: MainUIButtons (2)_17
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MainUIButtons (2)_0
+      rect:
+        serializedVersion: 2
+        x: 59
+        y: 826
+        width: 540
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 07d8158be8f1eabd0800000000000000
+      internalID: -2617119635617510032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_1
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 826
+        width: 523
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ec4dc6af6d4797e0800000000000000
+      internalID: -1758851987529708313
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_2
+      rect:
+        serializedVersion: 2
+        x: 60
+        y: 666
+        width: 538
+        height: 133
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0eb6d3bd78d2cda80800000000000000
+      internalID: -8440821540077081632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_3
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 666
+        width: 523
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ffa94c1df743be60800000000000000
+      internalID: 7976798517430169589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_4
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 507
+        width: 539
+        height: 129
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 75a90098225540df0800000000000000
+      internalID: -214953275391174057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_5
+      rect:
+        serializedVersion: 2
+        x: 622
+        y: 506
+        width: 524
+        height: 131
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8350fa6835d65f680800000000000000
+      internalID: -8721944897823767240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_6
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 376
+        width: 311
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b0de3c1e96c6bd40800000000000000
+      internalID: 5599881569062801584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_7
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 376
+        width: 329
+        height: 91
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93da09c63a23ee5a0800000000000000
+      internalID: -6490194335511827143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_8
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 375
+        width: 356
+        height: 92
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b7c455fb7fb52e520800000000000000
+      internalID: 2729845443765030011
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_9
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 265
+        width: 311
+        height: 95
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 616d13eb47b3440e0800000000000000
+      internalID: -2286637338204187114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_10
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 264
+        width: 329
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e63bcc3f154e51b10800000000000000
+      internalID: 1951717054168740718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_11
+      rect:
+        serializedVersion: 2
+        x: 724
+        y: 264
+        width: 358
+        height: 97
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 34d3551968b827930800000000000000
+      internalID: 4139524417587068227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_12
+      rect:
+        serializedVersion: 2
+        x: 1122
+        y: 222
+        width: 131
+        height: 138
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00af31777e5979550800000000000000
+      internalID: 6167563036074965504
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_13
+      rect:
+        serializedVersion: 2
+        x: 1264
+        y: 221
+        width: 115
+        height: 146
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31d798c8ff922c0e0800000000000000
+      internalID: -2251190686180606701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_14
+      rect:
+        serializedVersion: 2
+        x: 1389
+        y: 224
+        width: 129
+        height: 116
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f763287ab432921e0800000000000000
+      internalID: -2222206133290781057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_15
+      rect:
+        serializedVersion: 2
+        x: 53
+        y: 94
+        width: 315
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 001b7771a751f57c0800000000000000
+      internalID: -4080519123250466560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_16
+      rect:
+        serializedVersion: 2
+        x: 382
+        y: 95
+        width: 329
+        height: 108
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e4a69d22ee2fbe900800000000000000
+      internalID: 714932070469167694
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MainUIButtons (2)_17
+      rect:
+        serializedVersion: 2
+        x: 726
+        y: 95
+        width: 357
+        height: 109
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4d37608d7829dc30800000000000000
+      internalID: 4384580231712161098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MainUIButtons (2)_0: -2617119635617510032
+      MainUIButtons (2)_1: -1758851987529708313
+      MainUIButtons (2)_10: 1951717054168740718
+      MainUIButtons (2)_11: 4139524417587068227
+      MainUIButtons (2)_12: 6167563036074965504
+      MainUIButtons (2)_13: -2251190686180606701
+      MainUIButtons (2)_14: -2222206133290781057
+      MainUIButtons (2)_15: -4080519123250466560
+      MainUIButtons (2)_16: 714932070469167694
+      MainUIButtons (2)_17: 4384580231712161098
+      MainUIButtons (2)_2: -8440821540077081632
+      MainUIButtons (2)_3: 7976798517430169589
+      MainUIButtons (2)_4: -214953275391174057
+      MainUIButtons (2)_5: -8721944897823767240
+      MainUIButtons (2)_6: 5599881569062801584
+      MainUIButtons (2)_7: -6490194335511827143
+      MainUIButtons (2)_8: 2729845443765030011
+      MainUIButtons (2)_9: -2286637338204187114
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

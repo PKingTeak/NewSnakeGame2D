@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +15,9 @@ public class MainMenuUI : BaseUI
     private Action _onShop;
     private Action _onSetting;
     private Action _onQuit;
+
+
+   
 
     protected override void OnInitilze()
     {
@@ -43,4 +47,6 @@ public class MainMenuUI : BaseUI
         targetButton.onClick.RemoveAllListeners();
         targetButton.onClick.AddListener(() => action?.Invoke());
     }
+
+    
 }

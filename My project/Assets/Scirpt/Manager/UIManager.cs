@@ -14,6 +14,10 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("Modal")]
     [SerializeField] private Image modalBlocker;
 
+    [Header("FadeEffect")]
+    [SerializeField] private FadeUI fadeUI;
+
+
     public void Init()
     {
         InitGameplayUI();
@@ -208,5 +212,10 @@ public class UIManager : MonoSingleton<UIManager>
 
         popupUI.ShowMessage(title, message);
         popupUI.Show();
+    }
+
+    public void FadeEffect(float duration)
+    {
+        fadeUI.StartFadeOut(duration);
     }
 }
