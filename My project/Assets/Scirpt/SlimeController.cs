@@ -8,8 +8,9 @@ public class SlimeController : MonoBehaviour
     public Sprite[] babySlimeSprites;
 
     [Header("Settings")]
-    public float moveInterval = 0.2f;
-    public float moveSpeed = 0.02f;
+    [SerializeField] private float moveInterval = 0.3f;
+    [SerializeField] float minmoveInterval = 0.1f;
+    [SerializeField] float moveSpeed = 0.0002f;
     public Transform babyPrefab;
 
     private List<Transform> _segments = new List<Transform>();
@@ -191,11 +192,7 @@ public class SlimeController : MonoBehaviour
 
     private void CalSpeed()
     {
-        moveInterval -= moveSpeed;
-        if (moveInterval <= 0.1)
-        {
-            moveInterval -= Mathf.Clamp01(moveSpeed);
-        }
+        moveInterval = Mathf.Max(minmoveInterval, moveInterval - moveSpeed); //더큰 값으로 최대 min까지
 
     }
 }
