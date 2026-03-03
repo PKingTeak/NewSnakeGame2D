@@ -1,8 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoSingleton<UIManager>
+public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
+
     [Header("Gameplay UI")]
     [SerializeField] private ScoreUI scoreUI;
     [SerializeField] private PopupUI popupUI;
@@ -14,8 +17,6 @@ public class UIManager : MonoSingleton<UIManager>
     [Header("Modal")]
     [SerializeField] private Image modalBlocker;
 
-    [Header("FadeEffect")]
-    [SerializeField] private FadeUI fadeUI;
 
 
     public void Init()
@@ -25,9 +26,16 @@ public class UIManager : MonoSingleton<UIManager>
         SetupModalBlocker();
     }
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
+        if (Instance != null && Instance != this)
+        {
+            Debug.LogWarning($"[UIManager] 같은 씬에 중복 UIManager가 있습니다. 제거합니다: {name}");
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
         Init();
     }
 
@@ -161,10 +169,11 @@ public class UIManager : MonoSingleton<UIManager>
     {
         if (mainMenuUI != null)
         {
-            mainMenuUI.Hide();
+            mainMenuUI.Interactable(false);
         }
 
         Time.timeScale = 1f;
+        CustomSceneManager.Instance.ChangeScene(SceneType.GameScene);
     }
 
     private void OnClickSetting()
@@ -214,8 +223,5 @@ public class UIManager : MonoSingleton<UIManager>
         popupUI.Show();
     }
 
-    public void FadeEffect(float duration)
-    {
-        fadeUI.StartFadeOut(duration);
-    }
+
 }
