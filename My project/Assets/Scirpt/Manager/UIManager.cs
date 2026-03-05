@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private MainMenuUI mainMenuUI;
     [SerializeField] private ShopUI shopUI;
 
+    [SerializeField] private CustomizationUI customizationUI;
+
     [Header("Modal")]
     [SerializeField] private Image modalBlocker;
 
@@ -62,7 +64,7 @@ public class UIManager : MonoBehaviour
         }
 
         mainMenuUI.Init();
-        mainMenuUI.SetCallbacks(OnClickStartGame, OpenShop, OnClickSetting, OnClickQuit);
+        mainMenuUI.SetCallbacks(OnClickStartGame, OpenShop,OpenCustom ,OnClickSetting, OnClickQuit);
         mainMenuUI.Show();
 
         if (shopUI != null)
@@ -138,6 +140,12 @@ public class UIManager : MonoBehaviour
         {
             mainMenuUI.Interactable(false);
         }
+    }
+
+    public void OpenCustom()
+    {
+
+
     }
 
     public void CloseShop()

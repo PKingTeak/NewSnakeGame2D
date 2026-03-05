@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.Tilemaps; // Å¸ÀÏ¸Ê ½Ã½ºÅÛ »ç¿ë
+using UnityEngine.Tilemaps; // Å¸ï¿½Ï¸ï¿½ ï¿½Ã½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("Tilemap Setup")]
-    public Tilemap groundTilemap; // 'Å¸ÀÏ ¹è°æ' ¿ÀºêÁ§Æ®¸¦ ¿©±â¿¡ µå·¡±×ÇÏ¼¼¿ä.
-    public LayerMask obstacleLayer; // º®(Wall)°ú Áö··ÀÌ(Snake) ·¹ÀÌ¾î¸¦ ¼±ÅÃÇÏ¼¼¿ä.
+    public Tilemap groundTilemap; // 'Å¸ï¿½ï¿½ ï¿½ï¿½ï¿½' ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½â¿¡ ï¿½å·¡ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
+    public LayerMask obstacleLayer; // ï¿½ï¿½(Wall)ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(Snake) ï¿½ï¿½ï¿½Ì¾î¸¦ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.
 
     [Header("Food Setup")]
     public GameObject foodPrefab;
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
         while (!isPosValid && attempts < 50)
         {
-            // 1. Å¸ÀÏ ÁÂÇ¥°è ±âÁØÀ¸·Î ·£´ý ÁÂÇ¥ ¼±ÅÃ
+            // 1. Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
             int x = Random.Range(bounds.xMin, bounds.xMax);
             int y = Random.Range(bounds.yMin, bounds.yMax);
             Vector3Int cellPos = new Vector3Int(x, y, 0);
@@ -58,18 +58,18 @@ public class GameManager : MonoBehaviour
             {
                 spawnPos = groundTilemap.GetCellCenterWorld(cellPos);
 
-                // 2. ÇØ´ç À§Ä¡¿¡ ¹«¾ùÀÌ ÀÖ´ÂÁö È®ÀÎ
+                // 2. ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
                 Collider2D hit = Physics2D.OverlapPoint(spawnPos);
 
-                // [¼öÁ¤] ¾Æ¹«°Íµµ ¾ø°Å³ª(null), 
-                // È¤Àº Àå¾Ö¹° ·¹ÀÌ¾î¿¡ °É¸®Áö ¾ÊÀ¸¸é¼­ ÅÂ±×°¡ "Food"°¡ ¾Æ´Ñ °æ¿ì¿¡¸¸ À¯È¿
+                // [ï¿½ï¿½ï¿½ï¿½] ï¿½Æ¹ï¿½ï¿½Íµï¿½ ï¿½ï¿½ï¿½Å³ï¿½(null), 
+                // È¤ï¿½ï¿½ ï¿½ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½Ì¾î¿¡ ï¿½É¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½é¼­ ï¿½Â±×°ï¿½ "Food"ï¿½ï¿½ ï¿½Æ´ï¿½ ï¿½ï¿½ì¿¡ï¿½ï¿½ ï¿½ï¿½È¿
                 if (hit == null)
                 {
                     isPosValid = true;
                 }
                 else if (hit.CompareTag("Food") || hit.CompareTag("Player") || hit.CompareTag("Body"))
                 {
-                    // ÀÌ¹Ì ¸ÔÀÌ°¡ ÀÖ°Å³ª, Áö··ÀÌ(¸Ó¸®/¸öÅë)°¡ ÀÖ´Â Ä­ÀÌ¸é ´Ù½Ã ½Ãµµ
+                    // ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½Ì°ï¿½ ï¿½Ö°Å³ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(ï¿½Ó¸ï¿½/ï¿½ï¿½ï¿½ï¿½)ï¿½ï¿½ ï¿½Ö´ï¿½ Ä­ï¿½Ì¸ï¿½ ï¿½Ù½ï¿½ ï¿½Ãµï¿½
                     isPosValid = false;
                 }
             }
@@ -97,7 +97,13 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         _score += amount;
+        DataManager.Instance.AddGold(amount); // ì ìˆ˜ì™€ ë™ì¼í•œ ê³¨ë“œ ì§€ê¸‰
         UIManager.Instance.UpdateScore(_score);
         Debug.Log($"<color=yellow>Score: {_score}</color>");
+    }
+
+    public void OnGameOver()
+    {
+        DataManager.Instance.TryUpdateHighScore(_score);
     }
 }

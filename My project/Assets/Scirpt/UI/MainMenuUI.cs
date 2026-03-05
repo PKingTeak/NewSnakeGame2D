@@ -8,11 +8,13 @@ public class MainMenuUI : BaseUI
     [Header("Main Buttons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button shopButton;
+    [SerializeField] private Button customButton;
     [SerializeField] private Button settingButton;
     [SerializeField] private Button quitButton;
 
     private Action _onStart;
     private Action _onShop;
+    private Action _onCustom;
     private Action _onSetting;
     private Action _onQuit;
 
@@ -25,14 +27,15 @@ public class MainMenuUI : BaseUI
         BindButton(shopButton, () => _onShop?.Invoke());
         BindButton(settingButton, () => _onSetting?.Invoke());
         BindButton(quitButton, () => _onQuit?.Invoke());
-
+        BindButton(customButton, () => _onCustom?.Invoke());
         base.OnInitilze();
     }
 
-    public void SetCallbacks(Action onStart, Action onShop, Action onSetting, Action onQuit)
+    public void SetCallbacks(Action onStart, Action onShop,Action onCustom, Action onSetting, Action onQuit)
     {
         _onStart = onStart;
         _onShop = onShop;
+        _onCustom = onCustom;
         _onSetting = onSetting;
         _onQuit = onQuit;
     }

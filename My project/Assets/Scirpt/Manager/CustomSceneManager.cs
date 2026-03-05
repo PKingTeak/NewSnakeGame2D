@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -79,10 +80,15 @@ public class CustomSceneManager : MonoSingleton<CustomSceneManager>
     {
         if (fadeUI != null)
         {
-            fadeUI.FadeIn(duration);
+            StartCoroutine(DelayDuration());
         }
     }
 
+    private IEnumerator DelayDuration()
+    {
+        yield return null;
+        fadeUI.FadeIn(duration);
+    }
 
 
     private void FadeEffect()

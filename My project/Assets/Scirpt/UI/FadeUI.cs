@@ -38,6 +38,7 @@ public class FadeUI : MonoBehaviour
 
     public void FadeIn(float duration, Action onComplete = null)
     {
+        Debug.Log($"[FadeIn 호출] 현재 alpha = {canvasGroup.alpha}");
         StartFade(0f, duration, false, onComplete); //반대
     }
 

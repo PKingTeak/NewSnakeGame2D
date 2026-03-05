@@ -1,11 +1,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public struct SlimeSkinData
+{
+    public string itemId;
+    public Sprite sprite;
+}
+
 public class SlimeController : MonoBehaviour
 {
     [Header("Sprites")]
     public Sprite headSprite;
     public Sprite[] babySlimeSprites;
+
+    [Header("Skin Overrides (ìƒì  ì—°ë™)")]
+    [SerializeField] private SlimeSkinData[] skinEntries;
 
     [Header("Settings")]
     [SerializeField] private float moveInterval = 0.3f;
@@ -34,7 +44,7 @@ public class SlimeController : MonoBehaviour
         _babyTypes.Clear();
         _targetPositions.Clear();
 
-        // [ÇÙ½É Ãß°¡] ½ÃÀÛ À§Ä¡¸¦ Å¸ÀÏ¸ÊÀÇ ±×¸®µå Áß¾Ó¿¡ µü ¸ÂÃã
+        // [ï¿½Ù½ï¿½ ï¿½ß°ï¿½] ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ Å¸ï¿½Ï¸ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½ß¾Ó¿ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (GameManager.Instance != null && GameManager.Instance.groundTilemap != null)
         {
             Vector3Int cellPos = GameManager.Instance.groundTilemap.WorldToCell(transform.position);
@@ -42,10 +52,11 @@ public class SlimeController : MonoBehaviour
         }
 
         _segments.Add(this.transform);
-        _targetPositions.Add(this.transform.position); // ÀÌÁ¦ Á¤·ÄµÈ ÁÂÇ¥°¡ µé¾î°¨
+        _targetPositions.Add(this.transform.position); // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Äµï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½î°¨
         _babyTypes.Add((FoodType)(-1));
 
         if (headSprite != null) _sr.sprite = headSprite;
+        ApplySelectedSkin();
     }
 
     private void Update()
@@ -73,27 +84,27 @@ public class SlimeController : MonoBehaviour
 
     private void UpdateGridLogic()
     {
-        // ´ÙÀ½ ÀÌµ¿ÇÒ ¿ùµå ÁÂÇ¥ °è»ê (Å¸ÀÏ ÇÑ Ä­ ÀÌµ¿)
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ (Å¸ï¿½ï¿½ ï¿½ï¿½ Ä­ ï¿½Ìµï¿½)
         Vector3 nextPos = _targetPositions[0] + (Vector3)_direction;
 
-        // 1. Å¸ÀÏ¸Ê °æ°è ¹× Àå¾Ö¹° Ã¼Å©
+        // 1. Å¸ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½Ö¹ï¿½ Ã¼Å©
         if (!IsSafePos(nextPos))
         {
-            GameOver("°æ°è ¹ÛÀÌ°Å³ª º®¿¡ ºÎµúÈû!");
+            GameOver("ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ì°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½!");
             return;
         }
 
-        // 2. ÀÚ±â ¸öÅë Ãæµ¹ Ã¼Å©
+        // 2. ï¿½Ú±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ Ã¼Å©
         for (int i = 1; i < _targetPositions.Count; i++)
         {
             if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.1f)
             {
-                GameOver("ÀÚ½ÅÀÇ ¸ö¿¡ ºÎµúÈû!");
+                GameOver("ï¿½Ú½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Îµï¿½ï¿½ï¿½!");
                 return;
             }
         }
 
-        // 3. ¸¶µğ À§Ä¡ °»½Å (µÚ¿¡¼­ºÎÅÍ ¾ÕÀ¸·Î Àü´Ş)
+        // 3. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä¡ ï¿½ï¿½ï¿½ï¿½ (ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
         for (int i = _segments.Count - 1; i > 0; i--)
         {
             _targetPositions[i] = _targetPositions[i - 1];
@@ -101,22 +112,22 @@ public class SlimeController : MonoBehaviour
 
         _targetPositions[0] = nextPos;
 
-        // ½Ã°¢Àû ¹æÇâ ÀüÈ¯
+        // ï¿½Ã°ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
         if (_direction == Vector2.right) _sr.flipX = true;
         else if (_direction == Vector2.left) _sr.flipX = false;
     }
 
-    // Å¸ÀÏ¸Ê°ú ·¹ÀÌ¾î¸¦ È°¿ëÇÑ ¾ÈÀü °Ë»ç
+    // Å¸ï¿½Ï¸Ê°ï¿½ ï¿½ï¿½ï¿½Ì¾î¸¦ È°ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ë»ï¿½
     private bool IsSafePos(Vector3 pos)
     {
         var gm = GameManager.Instance;
         if (gm == null || gm.groundTilemap == null) return true;
 
-        // Å¸ÀÏ ÁÂÇ¥·Î º¯È¯ÇÏ¿© ÇØ´ç À§Ä¡¿¡ ¹Ù´Ú Å¸ÀÏÀÌ ÀÖ´ÂÁö È®ÀÎ
+        // Å¸ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯ï¿½Ï¿ï¿½ ï¿½Ø´ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½Ù´ï¿½ Å¸ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         Vector3Int cellPos = gm.groundTilemap.WorldToCell(pos);
         if (!gm.groundTilemap.HasTile(cellPos)) return false;
 
-        // Àå¾Ö¹° ·¹ÀÌ¾î(Wall µî)¿Í Ãæµ¹ÇÏ´ÂÁö È®ÀÎ
+        // ï¿½ï¿½Ö¹ï¿½ ï¿½ï¿½ï¿½Ì¾ï¿½(Wall ï¿½ï¿½)ï¿½ï¿½ ï¿½æµ¹ï¿½Ï´ï¿½ï¿½ï¿½ È®ï¿½ï¿½
         Collider2D hit = Physics2D.OverlapPoint(pos, gm.obstacleLayer);
         if (hit != null) return false;
 
@@ -187,12 +198,28 @@ public class SlimeController : MonoBehaviour
     private void GameOver(string reason)
     {
         Time.timeScale = 0;
-        Debug.Log($"<color=red>GAME OVER!</color> {reason}");
+        GameManager.Instance.OnGameOver();
     }
 
     private void CalSpeed()
     {
-        moveInterval = Mathf.Max(minmoveInterval, moveInterval - moveSpeed); //´õÅ« °ªÀ¸·Î ÃÖ´ë min±îÁö
+        moveInterval = Mathf.Max(minmoveInterval, moveInterval - moveSpeed); //ï¿½ï¿½Å« ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ö´ï¿½ minï¿½ï¿½ï¿½ï¿½
 
+    }
+
+    /// <summary>ìƒì ì—ì„œ ì„ íƒëœ ìŠ¬ë¼ì„ í—¤ë“œ ìŠ¤í‚¨ì„ ì ìš©.</summary>
+    private void ApplySelectedSkin()
+    {
+        if (skinEntries == null || skinEntries.Length == 0) return;
+
+        string selectedId = ShopDataManager.SelectedHeadId;
+        foreach (var entry in skinEntries)
+        {
+            if (entry.itemId == selectedId && entry.sprite != null)
+            {
+                _sr.sprite = entry.sprite;
+                return;
+            }
+        }
     }
 }
