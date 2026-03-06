@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 [System.Serializable]
 public struct SlimeSkinData
@@ -13,7 +14,7 @@ public class SlimeController : MonoBehaviour
     [Header("Sprites")]
     public Sprite headSprite;
     public Sprite[] babySlimeSprites;
-
+    
     [Header("Skin Overrides (상점 연동)")]
     [SerializeField] private SlimeSkinData[] skinEntries;
 
@@ -27,6 +28,8 @@ public class SlimeController : MonoBehaviour
     private List<FoodType> _babyTypes = new List<FoodType>();
     private List<Vector3> _targetPositions = new List<Vector3>();
 
+    //터치 입력
+    private Vector2 startTouchPosition;
     private Vector2 _direction = Vector2.right;
     private Vector2 _inputDirection = Vector2.right;
     private float _timer;
@@ -76,10 +79,56 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
+        /*
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right) _inputDirection = Vector2.left;
         else if (Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left) _inputDirection = Vector2.right;
+        */
+
+        //모바일 터치화면
+        if(Input.touchCount >0)
+        {
+            Touch touch = Input.GetTouch(0);
+            
+            if(touch.phase == TouchPhase.Began)
+            {
+                startTouchPosition = touch.position;
+            }
+            else if(touch.phase == TouchPhase.Ended)
+            {
+                Vector2 endTouchPosition = touch.position;
+                Vector2 delta = endTouchPosition - startTouchPosition;
+                if(delta.magnitude <30)
+                {
+                    return; //너무 작은 반지름은 터치 실수 유발
+                }
+                if(Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+                {
+                    if(delta.x>0 && _direction != Vector2.left)
+                    {
+                        _inputDirection = Vector2.right;
+                    }
+                    else if(delta.x<0 && _direction != Vector2.right)
+                    {
+                        _inputDirection = Vector2.left;
+                    }
+                }
+                else
+                {
+                    if(delta.y > 0 && _direction != Vector2.down)
+                    {
+                        _inputDirection = Vector2.up;
+                    }
+                    else if(delta.y < 0 && _direction != Vector2.up)
+                    {
+                        _inputDirection = Vector2.down;
+                    }
+                }
+            }
+            
+
+        }
     }
 
     private void UpdateGridLogic()

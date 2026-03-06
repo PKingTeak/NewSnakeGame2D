@@ -1,0 +1,36 @@
+ {
+    "itemDataList": [
+      {
+        "itemname": "slime_base",
+        "itemInfo": "기본 슬라임",
+        "cost": 0,
+        "iconPath": "Slime/Slime_base_head",
+        "type": 0,
+        "slimeType": 0
+      },
+      {
+        "itemname": "slime_fire",
+        "itemInfo": "불 슬라임 - 불 콤보 시 80점!",
+        "cost": 1000,
+        "iconPath": "Slime/Slime_fire_head",
+        "type": 0,
+        "slimeType": 1
+      },
+      {
+        "itemname": "slime_ice",
+        "itemInfo": "얼음 슬라임 - 얼음 콤보 시 80점!",      
+        "cost": 1000,
+        "iconPath": "Slime/Slime_ice_head",
+        "type": 0,
+        "slimeType": 2
+      },
+      {
+        "itemname": "slime_grass",
+        "itemInfo": "잔디 슬라임 - 초록 콤보 시 80점!",      
+        "cost": 1000,
+        "iconPath": "Slime/Slime_grass_head",
+        "type": 0,
+        "slimeType": 3
+      }
+    ]
+  }
