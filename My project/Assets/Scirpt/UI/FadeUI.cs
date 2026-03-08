@@ -38,8 +38,8 @@ public class FadeUI : MonoBehaviour
 
     public void FadeIn(float duration, Action onComplete = null)
     {
-        Debug.Log($"[FadeIn È£Ãâ] ÇöÀç alpha = {canvasGroup.alpha}");
-        StartFade(0f, duration, false, onComplete); //¹Ý´ë
+        Debug.Log($"[FadeIn í˜¸ì¶œ] í˜„ìž¬ alpha = {canvasGroup.alpha}");
+        StartFade(0f, duration, false, onComplete); //ë°˜ëŒ€
     }
 
 
@@ -66,7 +66,7 @@ public class FadeUI : MonoBehaviour
 
         while (time < duration)
         {
-            time += Time.unscaledDeltaTime; //ÀÌ°É·Î ÇØ¾ß ÆË¾÷ÀÌ³ª Á¤Áö »óÅÂ¿¡¼­µµ fade°¡ ½ÇÇàµÈ´Ù. µ¶¸³ÀûÀÎ ½Ã°£À» µû·Î »ç¿ëÇØ¾ßÇÔ 
+            time += Time.unscaledDeltaTime; //ì´ê±¸ë¡œ í•´ì•¼ íŒì—…ì´ë‚˜ ì •ì§€ ìƒíƒœì—ì„œë„ fadeê°€ ì‹¤í–‰ëœë‹¤. ë…ë¦½ì ì¸ ì‹œê°„ì„ ë”°ë¡œ ì‚¬ìš©í•´ì•¼í•¨ 
             float t = Mathf.Clamp01(time/duration);
             canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, t);
             yield return null;

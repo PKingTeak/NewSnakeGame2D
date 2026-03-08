@@ -14,7 +14,7 @@ public class SlimeController : MonoBehaviour
     [Header("Sprites")]
     public Sprite headSprite;
     public Sprite[] babySlimeSprites;
-    
+
     [Header("Skin Overrides (상점 연동)")]
     [SerializeField] private SlimeSkinData[] skinEntries;
 
@@ -47,7 +47,7 @@ public class SlimeController : MonoBehaviour
         _babyTypes.Clear();
         _targetPositions.Clear();
 
-        // [�ٽ� �߰�] ���� ��ġ�� Ÿ�ϸ��� �׸��� �߾ӿ� �� ����
+        // [시작 시 초기화] 현재 위치를 타일맵의 그리드 중앙에 맞추기
         if (GameManager.Instance != null && GameManager.Instance.groundTilemap != null)
         {
             Vector3Int cellPos = GameManager.Instance.groundTilemap.WorldToCell(transform.position);
@@ -55,7 +55,7 @@ public class SlimeController : MonoBehaviour
         }
 
         _segments.Add(this.transform);
-        _targetPositions.Add(this.transform.position); // ���� ���ĵ� ��ǥ�� ��
+        _targetPositions.Add(this.transform.position); // 현재 타겟된 좌표의 초기값 추가
         _babyTypes.Add((FoodType)(-1));
 
         if (headSprite != null) _sr.sprite = headSprite;
@@ -79,18 +79,19 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
-        /*
+        #if UNITY_EDITOR || KEyBOARD_INPUT
+        
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right) _inputDirection = Vector2.left;
         else if (Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left) _inputDirection = Vector2.right;
-        */
+        #endif
 
         //모바일 터치화면
         if(Input.touchCount >0)
         {
             Touch touch = Input.GetTouch(0);
-            
+
             if(touch.phase == TouchPhase.Began)
             {
                 startTouchPosition = touch.position;
@@ -126,34 +127,34 @@ public class SlimeController : MonoBehaviour
                     }
                 }
             }
-            
+
 
         }
     }
 
     private void UpdateGridLogic()
     {
-        // ���� �̵��� ���� ��ǥ ��� (Ÿ�� �� ĭ �̵�)
+        // 다음 이동할 목표 좌표 계산 (타일 한 칸 이동)
         Vector3 nextPos = _targetPositions[0] + (Vector3)_direction;
 
-        // 1. Ÿ�ϸ� ��� �� ��ֹ� üũ
+        // 1. 타일맵 범위 및 장벽 체크
         if (!IsSafePos(nextPos))
         {
-            GameOver("��� ���̰ų� ���� �ε���!");
+            GameOver("범위를 벗어났거나 장벽에 닿았습니다!");
             return;
         }
 
-        // 2. �ڱ� ���� �浹 üũ
+        // 2. 자기 몸 충돌 체크
         for (int i = 1; i < _targetPositions.Count; i++)
         {
             if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.1f)
             {
-                GameOver("�ڽ��� ���� �ε���!");
+                GameOver("자신의 몸에 충돌했습니다!");
                 return;
             }
         }
 
-        // 3. ���� ��ġ ���� (�ڿ������� ������ ����)
+        // 3. 위치 이동 (뒤에서 앞으로 순서대로 이동)
         for (int i = _segments.Count - 1; i > 0; i--)
         {
             _targetPositions[i] = _targetPositions[i - 1];
@@ -161,22 +162,22 @@ public class SlimeController : MonoBehaviour
 
         _targetPositions[0] = nextPos;
 
-        // �ð��� ���� ��ȯ
+        // 방향에 따른 좌우 반전
         if (_direction == Vector2.right) _sr.flipX = true;
         else if (_direction == Vector2.left) _sr.flipX = false;
     }
 
-    // Ÿ�ϸʰ� ���̾ Ȱ���� ���� �˻�
+    // 타일맵과 레이어 활성화 여부 검사
     private bool IsSafePos(Vector3 pos)
     {
         var gm = GameManager.Instance;
         if (gm == null || gm.groundTilemap == null) return true;
 
-        // Ÿ�� ��ǥ�� ��ȯ�Ͽ� �ش� ��ġ�� �ٴ� Ÿ���� �ִ��� Ȯ��
+        // 타일 좌표로 변환하여 해당 위치에 바닥 타일이 있는지 확인
         Vector3Int cellPos = gm.groundTilemap.WorldToCell(pos);
         if (!gm.groundTilemap.HasTile(cellPos)) return false;
 
-        // ��ֹ� ���̾�(Wall ��)�� �浹�ϴ��� Ȯ��
+        // 장벽 레이어(Wall 등)와 충돌하는지 확인
         Collider2D hit = Physics2D.OverlapPoint(pos, gm.obstacleLayer);
         if (hit != null) return false;
 
@@ -252,7 +253,7 @@ public class SlimeController : MonoBehaviour
 
     private void CalSpeed()
     {
-        moveInterval = Mathf.Max(minmoveInterval, moveInterval - moveSpeed); //��ū ������ �ִ� min����
+        moveInterval = Mathf.Max(minmoveInterval, moveInterval - moveSpeed); // 작을수록 빠름, min값 제한
 
     }
 
@@ -261,7 +262,7 @@ public class SlimeController : MonoBehaviour
     {
         if (skinEntries == null || skinEntries.Length == 0) return;
 
-        string selectedId = ShopDataManager.SelectedHeadId;
+        string selectedId = DataManager.Instance.SelectedHeadId;
         foreach (var entry in skinEntries)
         {
             if (entry.itemId == selectedId && entry.sprite != null)

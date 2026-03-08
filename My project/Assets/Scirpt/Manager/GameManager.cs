@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.Tilemaps; // Ÿ�ϸ� �ý��� ���
+using UnityEngine.Tilemaps; // 타일맵 시스템 사용
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
     [Header("Tilemap Setup")]
-    public Tilemap groundTilemap; // 'Ÿ�� ���' ������Ʈ�� ���⿡ �巡���ϼ���.
-    public LayerMask obstacleLayer; // ��(Wall)�� ������(Snake) ���̾ �����ϼ���.
+    public Tilemap groundTilemap; // '타일 맵' 컴포넌트를 여기에 드래그하세요.
+    public LayerMask obstacleLayer; // 장벽(Wall)과 뱀(Snake) 레이어를 설정하세요.
 
     [Header("Food Setup")]
     public GameObject foodPrefab;
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
         while (!isPosValid && attempts < 50)
         {
-            // 1. Ÿ�� ��ǥ�� �������� ���� ��ǥ ����
+            // 1. 타일 좌표를 랜덤으로 선택된 좌표 생성
             int x = Random.Range(bounds.xMin, bounds.xMax);
             int y = Random.Range(bounds.yMin, bounds.yMax);
             Vector3Int cellPos = new Vector3Int(x, y, 0);
@@ -58,18 +58,18 @@ public class GameManager : MonoBehaviour
             {
                 spawnPos = groundTilemap.GetCellCenterWorld(cellPos);
 
-                // 2. �ش� ��ġ�� ������ �ִ��� Ȯ��
+                // 2. 해당 위치에 무언가 있는지 확인
                 Collider2D hit = Physics2D.OverlapPoint(spawnPos);
 
-                // [����] �ƹ��͵� ���ų�(null), 
-                // Ȥ�� ��ֹ� ���̾ �ɸ��� �����鼭 �±װ� "Food"�� �ƴ� ��쿡�� ��ȿ
+                // [조건] 아무것도 없거나(null),
+                // 혹은 장벽 레이어에 걸리면서 태그가 "Food"가 아닌 경우에도 유효
                 if (hit == null)
                 {
                     isPosValid = true;
                 }
                 else if (hit.CompareTag("Food") || hit.CompareTag("Player") || hit.CompareTag("Body"))
                 {
-                    // �̹� ���̰� �ְų�, ������(�Ӹ�/����)�� �ִ� ĭ�̸� �ٽ� �õ�
+                    // 이미 뭔가 있거나, 음식(머리/몸통)이 있는 칸이면 다시 시도
                     isPosValid = false;
                 }
             }

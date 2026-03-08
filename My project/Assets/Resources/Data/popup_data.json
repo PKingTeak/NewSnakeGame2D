@@ -1,0 +1,43 @@
+{
+  "popups": [
+    {
+      "popupId": "quit_confirm",
+      "title": "게임 종료",
+      "message": "정말 종료하시겠습니까?",
+      "showCloseButton": false,
+      "buttons": [
+        { "label": "예", "actionId": "QuitGame" },
+        { "label": "아니오", "actionId": "Close" }
+      ]
+    },
+    {
+      "popupId": "not_enough_gold",
+      "title": "골드 부족",
+      "message": "골드가 부족합니다.",
+      "showCloseButton": true,
+      "buttons": [
+        { "label": "확인", "actionId": "Close" }
+      ]
+    },
+    {
+      "popupId": "purchase_confirm",
+      "title": "아이템 구매",
+      "message": "구매하시겠습니까?",
+      "showCloseButton": false,
+      "buttons": [
+        { "label": "구매", "actionId": "ConfirmPurchase" },
+        { "label": "취소", "actionId": "Close" }
+      ]
+    },
+    {
+      "popupId": "game_over",
+      "title": "게임 오버",
+      "message": "다시 도전하시겠습니까?",
+      "showCloseButton": false,
+      "buttons": [
+        { "label": "재시작", "actionId": "RestartGame" },
+        { "label": "메인 메뉴", "actionId": "GoToMainMenu" }
+      ]
+    }
+  ]
+}

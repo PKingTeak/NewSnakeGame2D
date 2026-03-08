@@ -1,19 +1,7 @@
 using System;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class PopupButtonData
-{
-    public string label;
-    public Action onClick;
-
-    public PopupButtonData(string _label, Action _onClick)
-    { 
-        label = _label;
-        onClick = _onClick;
-    }
-}
+using TMPro;
 
 public class PopUpButtonUI : MonoBehaviour
 {

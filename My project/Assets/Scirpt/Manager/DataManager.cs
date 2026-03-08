@@ -6,7 +6,7 @@ using UnityEngine;
 public class DataManager : MonoSingleton<DataManager>
 {
 
-    public readonly DataTable DataTable = new DataTable(); 
+    public readonly DataTable DataTable = new DataTable();  //모든 데이터를 담든 창고 느낌 
 
     [Serializable]
     public class PlayerData
@@ -30,8 +30,10 @@ public class DataManager : MonoSingleton<DataManager>
 
     // ─────────────────────────────────────────────────────────────────────────
     // 초기화 / 저장·로드
-    // ─────────────────────────────────────────────────────────────────────────
+    //     // ─────────────────────────────────────────────────────────────────────────
+    
 
+   
     protected override void Awake()
     {
         base.Awake();
@@ -135,17 +137,6 @@ public class DataManager : MonoSingleton<DataManager>
 
     public void SelectHead(string itemId) { _data.selectedHeadId = itemId; Save(); }
     public void SelectMap(string itemId)  { _data.selectedMapId  = itemId; Save(); }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 유틸
-    // ─────────────────────────────────────────────────────────────────────────
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 아이템 데이터 조회 (DataTable 위임)
-    // ─────────────────────────────────────────────────────────────────────────
-
-    public List<ItemData>  GetItemsByType(ItemType type) => DataTable.GetByType(type);
-    public ItemData        GetItem(string itemname)      => DataTable.GetItem(itemname);
 
     // ─────────────────────────────────────────────────────────────────────────
     // 유틸

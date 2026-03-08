@@ -23,12 +23,12 @@ public class PopupUI : BaseUI
 
     protected override void OnInitilze()
     {
+        base.OnInitilze();
         if (closeButton != null)
         {
             closeButton.onClick.RemoveAllListeners();
             closeButton.onClick.AddListener(Hide);
         }
-        base.OnInitilze();
 
         Hide();
     }
@@ -79,7 +79,7 @@ public class PopupUI : BaseUI
 
 
 
-    public void ShowMessage(string title, string message, string confrimText = "È®ÀÎ", Action onConfrim = null)
+    public void ShowMessage(string title, string message, string confrimText = "È®ï¿½ï¿½", Action onConfrim = null)
     {
         var buttons = new List<PopupButtonData>
         {

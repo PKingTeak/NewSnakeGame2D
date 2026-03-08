@@ -19,8 +19,8 @@ public abstract class BaseUI : MonoBehaviour
             return;
         }
 
-        OnInitilze();
         _isInitialized = true;
+        OnInitilze();
     }
 
     public virtual void Hide()

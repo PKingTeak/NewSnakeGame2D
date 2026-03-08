@@ -40,7 +40,7 @@ public class CustomSceneManager : MonoSingleton<CustomSceneManager>
         FadeUI fadeprefabs = Resources.Load<FadeUI>("UI/Fade");
         if (fadeprefabs == null)
         {
-            Debug.LogError("Resources/UI/FadeUI.prefab À» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+            Debug.LogError("Resources/UI/FadeUI.prefab ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 

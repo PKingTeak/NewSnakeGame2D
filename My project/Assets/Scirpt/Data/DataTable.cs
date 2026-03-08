@@ -15,7 +15,7 @@ public class DataTable
 
     public void Init()
     {
-        TextAsset json = Resources.Load<TextAsset>("itemdata");
+        TextAsset json = Resources.Load<TextAsset>("Data/itemdata");
         if (json == null)
         {
             Debug.LogWarning("[DataTable] Resources/itemdata.json 을 찾을 수 없습니다.");
