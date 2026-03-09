@@ -18,10 +18,10 @@ public class ShopUI : BaseUI
     [SerializeField] private Button   closeButton;
 
     [Header("탭")]
-    [SerializeField] private Button slimeTabButton;
-    [SerializeField] private Button mapTabButton;
-    [SerializeField] private Image  slimeTabUnderline;
-    [SerializeField] private Image  mapTabUnderline;
+    [SerializeField] private Button   slimeTabButton;
+    [SerializeField] private Button   mapTabButton;
+    [SerializeField] private TMP_Text slimeTabText;
+    [SerializeField] private TMP_Text mapTabText;
 
     [Header("아이템 목록")]
     [SerializeField] private Transform   itemContainer;
@@ -76,12 +76,12 @@ public class ShopUI : BaseUI
         _currentTab = tab;
 
         bool isSlime = tab == ItemType.SlimeHead;
-        if (slimeTabUnderline != null) slimeTabUnderline.gameObject.SetActive(isSlime);
-        if (mapTabUnderline   != null) mapTabUnderline.gameObject.SetActive(!isSlime);
+        if (slimeTabText != null) slimeTabText.fontStyle = isSlime  ? FontStyles.Underline : FontStyles.Normal;
+        if (mapTabText   != null) mapTabText.fontStyle   = !isSlime ? FontStyles.Underline : FontStyles.Normal;
 
         RefreshItemList();
     }
-
+    
     // ─── 아이템 목록 갱신 ─────────────────────────────────────────────
 
     private void RefreshItemList()
@@ -111,6 +111,7 @@ public class ShopUI : BaseUI
 
     private void OnSelectItem(ItemData item)
     {
+        Debug.Log($"[ShopUI] 아이템 선택: {item.Itemname}");
         _selectedItem = item;
         UpdateDetail(item);
         RefreshButtonSelectionState();

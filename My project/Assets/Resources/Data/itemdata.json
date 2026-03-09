@@ -2,7 +2,7 @@
     "itemDataList": [
       {
         "itemname": "slime_base",
-        "itemInfo": "기본 슬라임",
+        "itemInfo": "normal slime",
         "cost": 0,
         "iconPath": "Slime/Slime_base_head",
         "type": 0,
@@ -10,7 +10,7 @@
       },
       {
         "itemname": "slime_fire",
-        "itemInfo": "불 슬라임 - 불 콤보 시 80점!",
+        "itemInfo": "Fire Slime - Fire combo Plus +80!",
         "cost": 1000,
         "iconPath": "Slime/Slime_fire_head",
         "type": 0,

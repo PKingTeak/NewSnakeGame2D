@@ -165,9 +165,7 @@ public class UIManager : MonoBehaviour
     /// <para>contextActions: 이번 호출에서만 사용할 액션 오버라이드 (동적 데이터 전달용)</para>
     /// <para>messageOverride: JSON 메시지 대신 동적 문자열을 표시할 때 사용</para>
     /// </summary>
-    public void ShowPopupById(string popupId,
-                              Dictionary<string, Action> contextActions = null,
-                              string messageOverride = null)
+    public void ShowPopupById(string popupId,Dictionary<string, Action> contextActions = null,string messageOverride = null)
     {
         if (popupUI == null) return;
 
