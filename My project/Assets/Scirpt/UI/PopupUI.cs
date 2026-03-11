@@ -79,7 +79,7 @@ public class PopupUI : BaseUI
 
 
 
-    public void ShowMessage(string title, string message, string confrimText = "Ȯ��", Action onConfrim = null)
+    public void ShowMessage(string title, string message, string confrimText = "Okay", Action onConfrim = null)
     {
         var buttons = new List<PopupButtonData>
         {

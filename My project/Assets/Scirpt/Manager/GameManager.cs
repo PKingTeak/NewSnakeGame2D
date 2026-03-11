@@ -104,6 +104,9 @@ public class GameManager : MonoBehaviour
 
     public void OnGameOver()
     {
+        UIManager.Instance.ShowGameOverPopup(_score, time);
         DataManager.Instance.TryUpdateHighScore(_score);
     }
+
+   
 }

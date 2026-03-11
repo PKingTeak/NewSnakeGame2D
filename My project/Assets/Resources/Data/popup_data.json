@@ -2,41 +2,41 @@
   "popups": [
     {
       "popupId": "quit_confirm",
-      "title": "게임 종료",
-      "message": "정말 종료하시겠습니까?",
+      "title": "Quit Game",
+      "message": "Are you sure you want to quit?",
       "showCloseButton": false,
       "buttons": [
-        { "label": "예", "actionId": "QuitGame" },
-        { "label": "아니오", "actionId": "Close" }
+        { "label": "Yes", "actionId": "QuitGame" },
+        { "label": "No", "actionId": "Close" }
       ]
     },
     {
       "popupId": "not_enough_gold",
-      "title": "골드 부족",
-      "message": "골드가 부족합니다.",
+      "title": "Not Enough Gold",
+      "message": "You don't have enough gold.",
       "showCloseButton": true,
       "buttons": [
-        { "label": "확인", "actionId": "Close" }
+        { "label": "OK", "actionId": "Close" }
       ]
     },
     {
       "popupId": "purchase_confirm",
-      "title": "아이템 구매",
-      "message": "구매하시겠습니까?",
+      "title": "Purchase Item",
+      "message": "Do you want to buy this item?",
       "showCloseButton": false,
       "buttons": [
-        { "label": "구매", "actionId": "ConfirmPurchase" },
-        { "label": "취소", "actionId": "Close" }
+        { "label": "Buy", "actionId": "ConfirmPurchase" },
+        { "label": "Cancel", "actionId": "Close" }
       ]
     },
     {
       "popupId": "game_over",
-      "title": "게임 오버",
-      "message": "다시 도전하시겠습니까?",
+      "title": "Game Over",
+      "message": "Try again?",
       "showCloseButton": false,
       "buttons": [
-        { "label": "재시작", "actionId": "RestartGame" },
-        { "label": "메인 메뉴", "actionId": "GoToMainMenu" }
+        { "label": "Restart", "actionId": "RestartGame" },
+        { "label": "Quit", "actionId": "GoToMainMenu" }
       ]
     }
   ]

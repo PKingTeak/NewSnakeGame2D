@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_Color: {r: 0.7924528, g: 0.6559684, b: 0.45977217, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -617,7 +617,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -100, y: -100}
+  m_SizeDelta: {x: -160, y: -160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &431121551900242569
 CanvasRenderer:
@@ -1153,7 +1153,7 @@ GameObject:
   - component: {fileID: 8005571206932229753}
   - component: {fileID: 8329872278075310267}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: PriceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1419,7 +1419,7 @@ MonoBehaviour:
   detailIcon: {fileID: 3037391461390703981}
   detailName: {fileID: 0}
   detailDesc: {fileID: 4844892538488615760}
-  detailPrice: {fileID: 0}
+  detailPrice: {fileID: 8005571206932229753}
   actionButton: {fileID: 0}
   actionButtonText: {fileID: 0}
 --- !u!1 &7846986007040399717

@@ -197,18 +197,14 @@ public class UIManager : MonoBehaviour
     // 팝업 - 편의 메서드 (코드에서 직접 호출하는 경우)
     // ─────────────────────────────────────────────────────────────────────────
 
-    public void ShowGameOverPopup(int score, float time, Action onRestart, Action onExit)
+    public void ShowGameOverPopup(int score,float time)
     {
-        string message = $"점수 : {score}\n시간 : {time:0.00}";
+        string message = $"Score: {score}\nTime: {time:F1}seconds";
+        ShowPopupById("game_over", null, message);
+        
 
-        ShowPopupById("game_over",
-            contextActions: new Dictionary<string, Action>
-            {
-                { "RestartGame", onRestart },
-                { "GoToMainMenu", onExit }
-            },
-            messageOverride: message);
     }
+
 
     public void ShowSimpleMessage(string title, string message)
     {
