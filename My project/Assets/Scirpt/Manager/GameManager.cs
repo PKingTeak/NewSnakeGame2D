@@ -97,15 +97,15 @@ public class GameManager : MonoBehaviour
     public void AddScore(int amount)
     {
         _score += amount;
-        DataManager.Instance.AddGold(amount); // 점수와 동일한 골드 지급
         UIManager.Instance.UpdateScore(_score);
         Debug.Log($"<color=yellow>Score: {_score}</color>");
     }
 
     public void OnGameOver()
     {
-        UIManager.Instance.ShowGameOverPopup(_score, time);
         DataManager.Instance.TryUpdateHighScore(_score);
+        EventHub.Publish(_score); //점수 이벤트 넣어주기;
+        UIManager.Instance.ShowGameOverPopup(_score, time);
     }
 
    

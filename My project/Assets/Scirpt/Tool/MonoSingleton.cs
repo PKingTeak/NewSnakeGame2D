@@ -32,7 +32,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
         }
         else if (instance != this)
         {
-            Debug.LogWarning($"[MonoSingleton<{typeof(T)}>] Áßº¹ ÀÎ½ºÅÏ½º Á¦°ÅµÊ: {name}");
+            Debug.LogWarning($"[MonoSingleton<{typeof(T)}>] ï¿½ßºï¿½ ï¿½Î½ï¿½ï¿½Ï½ï¿½ ï¿½ï¿½ï¿½Åµï¿½: {name}");
             Destroy(gameObject);
         }
     }

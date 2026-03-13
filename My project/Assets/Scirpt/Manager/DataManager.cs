@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DataManager : MonoSingleton<DataManager>
 {
-
     public readonly DataTable DataTable = new DataTable();  //모든 데이터를 담든 창고 느낌 
 
     [Serializable]
@@ -38,7 +37,14 @@ public class DataManager : MonoSingleton<DataManager>
     {
         base.Awake();
         DataTable.Init();
+        EventHub.Subscribe(AddGold);
         Load();
+    }
+
+   
+    void OnDestroy()
+    {
+        EventHub.Unsubscribe(AddGold);
     }
 
     public void Load()
