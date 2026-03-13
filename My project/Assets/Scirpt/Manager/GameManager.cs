@@ -101,6 +101,16 @@ public class GameManager : MonoBehaviour
         Debug.Log($"<color=yellow>Score: {_score}</color>");
     }
 
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+    }
+
+    public void ResumeGame()
+    {
+        Time.timeScale = 1f;
+    }
+
     public void OnGameOver()
     {
         DataManager.Instance.TryUpdateHighScore(_score);

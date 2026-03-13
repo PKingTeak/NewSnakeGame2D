@@ -38,6 +38,18 @@
         { "label": "Restart", "actionId": "RestartGame" },
         { "label": "Quit", "actionId": "GoToMainMenu" }
       ]
+    },
+    {
+      "popupId": "pause_menu",
+      "title": "Game Paused",
+      "message": "The game is paused.",
+      "showCloseButton": true,
+      "buttons": [
+        { "label": "Continue", "actionId": "ResumeGame" },
+        {"label": "Restart", "actionId": "RestartGame"},
+        {"label" : "Exit", "actionId": "GoToMainMenu"}
+      ]
+
     }
   ]
 }

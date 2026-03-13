@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     [Header("Gameplay UI")]
     [SerializeField] private ScoreUI scoreUI;
     [SerializeField] private PopupUI popupUI;
+    [SerializeField] private Button pauseButton;
 
     [Header("Main UI")]
     [SerializeField] private MainMenuUI mainMenuUI;
@@ -71,6 +72,12 @@ public class UIManager : MonoBehaviour
         {
             popupUI.Init();
             popupUI.Hide();
+        }
+
+        if(pauseButton != null)
+        {
+            pauseButton.onClick.RemoveAllListeners();
+            pauseButton.onClick.AddListener(ShowPausePopup);
         }
     }
 
@@ -154,6 +161,8 @@ public class UIManager : MonoBehaviour
         RegisterAction("QuitGame",    OnClickQuit);
         RegisterAction("GoToMainMenu",() => CustomSceneManager.Instance.ChangeScene(SceneType.MainTitle));
         RegisterAction("RestartGame", () => CustomSceneManager.Instance.ChangeScene(SceneType.GameScene));
+        RegisterAction("PauseGame",() => GameManager.Instance.PauseGame());
+        RegisterAction("ResumeGame",() => GameManager.Instance.ResumeGame());
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -204,6 +213,11 @@ public class UIManager : MonoBehaviour
         
 
     }
+    public void ShowPausePopup()
+    {
+        GameManager.Instance.PauseGame();
+        ShowPopupById("pause_menu");
+    }
 
 
     public void ShowSimpleMessage(string title, string message)
@@ -229,7 +243,7 @@ public class UIManager : MonoBehaviour
             mainMenuUI.Interactable(false);
     }
 
-    public void OpenCustom() { }
+    public void OpenCustom() { } //커스터마이징
 
     public void CloseShop()
     {
