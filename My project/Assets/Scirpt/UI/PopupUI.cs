@@ -62,6 +62,7 @@ public class PopupUI : BaseUI
                 {
                     continue;
                 }
+                Debug.Log($"[PopupUI] buttonPrefabs: {buttonPrefabs != null}, buttonRoot: {buttonRoot != null}");
                 PopUpButtonUI buttonUI = Instantiate(buttonPrefabs, buttonRoot);
                 spawnButtons.Add(buttonUI);
 

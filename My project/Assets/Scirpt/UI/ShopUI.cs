@@ -100,7 +100,7 @@ public class ShopUI : BaseUI
 
             var btn = Instantiate(itemButtonPrefab, itemContainer);
             var captured = item;
-            btn.Setup(item, IsOwned(item), IsSelected(item), () => OnSelectItem(captured));
+            btn.Setup(item, IsOwned(item), IsSelected(item), () => OnSelectItem(captured), () => OnBuyItem(captured));
             _spawnedButtons.Add(btn);
         }
 
@@ -151,29 +151,66 @@ public class ShopUI : BaseUI
 
     // ─── 구매 / 선택 버튼 ────────────────────────────────────────────
 
+    private void OnBuyItem(ItemData item)
+    {
+        if (IsOwned(item)) return;
+
+        UIManager.Instance?.ShowPopupById(
+            "purchase_confirm",
+            contextActions: new Dictionary<string, Action>
+            {
+                { "ConfirmPurchase", () => ExecutePurchase(item) }
+            },
+            messageOverride: $"{item.Itemname}\n{item.Cost} 코인으로 구매하시겠습니까?"
+        );
+    }
+
     private void OnClickAction()
     {
-        if (_selectedItem == null) return;
+        Debug.Log("[ShopUI] OnClickAction 호출됨");
+
+        if (_selectedItem == null) { Debug.LogWarning("[ShopUI] _selectedItem이 null"); return; }
+
+        Debug.Log($"[ShopUI] 선택 아이템: {_selectedItem.Itemname}, 보유여부: {IsOwned(_selectedItem)}");
+        Debug.Log($"[ShopUI] UIManager.Instance: {UIManager.Instance != null}");
 
         if (!IsOwned(_selectedItem))
         {
-            if (!DataManager.Instance.TryPurchase(_selectedItem.Itemname, _selectedItem.Cost))
-            {
-                UIManager.Instance?.ShowSimpleMessage(
-                    "코인 부족",
-                    $"코인이 부족합니다.\n필요 코인: {_selectedItem.Cost}\n보유 코인: {DataManager.Instance.Gold}"
-                );
-                return;
-            }
-            UpdateCoinDisplay();
+            var captured = _selectedItem;
+            UIManager.Instance?.ShowPopupById(
+                "purchase_confirm",
+                contextActions: new Dictionary<string, Action>
+                {
+                    { "ConfirmPurchase", () => ExecutePurchase(captured) }
+                },
+                messageOverride: $"{captured.Itemname}\n{captured.Cost} 코인으로 구매하시겠습니까?"
+            );
+            return;
         }
 
-        if (_selectedItem.Type == ItemType.SlimeHead)
-            DataManager.Instance.SelectHead(_selectedItem.Itemname);
-        else
-            DataManager.Instance.SelectMap(_selectedItem.Itemname);
+        SelectItem(_selectedItem);
+    }
 
-        UpdateDetail(_selectedItem);
+    private void ExecutePurchase(ItemData item)
+    {
+        if (!DataManager.Instance.TryPurchase(item.Itemname, item.Cost))
+        {
+            UIManager.Instance?.ShowPopupById("not_enough_gold");
+            return;
+        }
+
+        UpdateCoinDisplay();
+        SelectItem(item);
+    }
+
+    private void SelectItem(ItemData item)
+    {
+        if (item.Type == ItemType.SlimeHead)
+            DataManager.Instance.SelectHead(item.Itemname);
+        else
+            DataManager.Instance.SelectMap(item.Itemname);
+
+        UpdateDetail(item);
         RefreshButtonSelectionState();
     }
 

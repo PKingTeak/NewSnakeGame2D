@@ -344,7 +344,7 @@ MonoBehaviour:
   priceText: {fileID: 8309987583708672391}
   lockedOverlay: {fileID: 0}
   selectedBorder: {fileID: 872346374997701995}
-  button: {fileID: 7602887408097866651}
+  buyButton: {fileID: 7602887408097866651}
 --- !u!1 &5603325662282008053
 GameObject:
   m_ObjectHideFlags: 0

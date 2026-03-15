@@ -66,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: Purchase Item
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2150df8bf2151b94b8fce7c09cd44643, type: 2}
   m_sharedMaterial: {fileID: -6693851830195509199, guid: 2150df8bf2151b94b8fce7c09cd44643, type: 2}
@@ -176,7 +176,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5193106121665926315
 RectTransform:
   m_ObjectHideFlags: 0
@@ -359,7 +359,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -446526581310997891, guid: 6c3e5f96d3d00b8478bd54a450012de0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -382,7 +382,7 @@ GameObject:
   - component: {fileID: 4228103384306172190}
   - component: {fileID: 4547900258849451232}
   m_Layer: 5
-  m_Name: BestScore
+  m_Name: Message
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Your Score : 1000000'
+  m_text: "slime_fire\n1000 \uCF54\uC778\uC73C\uB85C \uAD6C\uB9E4\uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2150df8bf2151b94b8fce7c09cd44643, type: 2}
   m_sharedMaterial: {fileID: -6693851830195509199, guid: 2150df8bf2151b94b8fce7c09cd44643, type: 2}
@@ -500,7 +500,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 115.080536, y: 0, z: 112.340576, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -579,7 +579,7 @@ MonoBehaviour:
   messageText: {fileID: 4228103384306172190}
   closeButton: {fileID: 8319055311492529139}
   buttonRoot: {fileID: 8659563283069982437}
-  buttonPrefabs: {fileID: 3098406440328808795, guid: 0140156b6b2499047b68d08a6eac1163, type: 3}
+  buttonPrefabs: {fileID: 3098406440328808795, guid: 0fcc644ac2593d6418f8aa8d73076b9e, type: 3}
 --- !u!1 &6427622009672040608
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,8 +699,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -4.7648926}
+  m_SizeDelta: {x: 0, y: -168.3613}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &471410887361426851
 MonoBehaviour:

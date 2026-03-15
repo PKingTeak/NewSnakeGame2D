@@ -16,16 +16,20 @@ public class ShopItemButtonUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject  lockedOverlay;
     [SerializeField] private GameObject  selectedBorder;
 
+    [SerializeField] private Button buyButton;
+
     private Action _onClick;
+    private Action _onBuy;
 
     public void OnPointerClick(PointerEventData eventData)
     {
         _onClick?.Invoke();
     }
 
-    public void Setup(ItemData data, bool isPurchased, bool isSelected, Action onClick)
+    public void Setup(ItemData data, bool isPurchased, bool isSelected, Action onClick, Action onBuy = null)
     {
         _onClick = onClick;
+        _onBuy   = onBuy;
 
         if (iconImage != null && data.Icon != null)
             iconImage.sprite = data.Icon;
@@ -41,6 +45,13 @@ public class ShopItemButtonUI : MonoBehaviour, IPointerClickHandler
 
         if (selectedBorder != null)
             selectedBorder.SetActive(isSelected);
+
+        if (buyButton != null)
+        {
+            buyButton.gameObject.SetActive(!isPurchased);
+            buyButton.onClick.RemoveAllListeners();
+            buyButton.onClick.AddListener(() => _onBuy?.Invoke());
+        }
     }
 
     public void SetSelected(bool isSelected)
@@ -49,6 +60,6 @@ public class ShopItemButtonUI : MonoBehaviour, IPointerClickHandler
             selectedBorder.SetActive(isSelected);
     }
 
-
+   
     
 }
