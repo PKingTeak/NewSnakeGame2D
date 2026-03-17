@@ -32,9 +32,10 @@ public class ShopUI : BaseUI
     [SerializeField] private TMP_Text detailName;
     [SerializeField] private TMP_Text detailDesc;
     [SerializeField] private TMP_Text detailPrice;
-    [SerializeField] private Button   actionButton;
-    [SerializeField] private TMP_Text actionButtonText;
 
+    [Header("구매 적용 버튼")]
+    [SerializeField] private Button BuyButton;
+    [SerializeField] private Button ApplyButton;
     // ─── 내부 상태 ────────────────────────────────────────────────────
 
     private Action                 _onClose;
@@ -53,8 +54,8 @@ public class ShopUI : BaseUI
         closeButton?.onClick.AddListener(() => _onClose?.Invoke());
         slimeTabButton?.onClick.AddListener(() => SwitchTab(ItemType.SlimeHead));
         mapTabButton?.onClick.AddListener(() => SwitchTab(ItemType.Map));
-        actionButton?.onClick.AddListener(OnClickAction);
-
+        BuyButton?.onClick.AddListener(() => OnBuyItem(_selectedItem));
+        ApplyButton?.onClick.AddListener(() => SelectItem(_selectedItem));
         base.OnInitilze();
         Hide();
     }
@@ -115,7 +116,10 @@ public class ShopUI : BaseUI
         _selectedItem = item;
         UpdateDetail(item);
         RefreshButtonSelectionState();
+        //아이템 선택시 적용할지 물어보는 기능 추가 
+        //구매 추가 
     }
+
 
     private void UpdateDetail(ItemData item)
     {
@@ -129,15 +133,11 @@ public class ShopUI : BaseUI
         if (detailPrice != null)
             detailPrice.text = owned ? "보유 중" : $"{item.Cost} 코인";
 
-        if (actionButtonText != null)
-        {
-            if (selected) actionButtonText.text = "선택됨";
-            else if (owned) actionButtonText.text = "선택하기";
-            else            actionButtonText.text = $"구매 ({item.Cost} 코인)";
-        }
+        if (BuyButton != null)
+            BuyButton.interactable = !owned;
 
-        if (actionButton != null)
-            actionButton.interactable = !selected;
+        if (ApplyButton != null)
+            ApplyButton.interactable = owned && !selected;
     }
 
     private void RefreshButtonSelectionState()
@@ -163,32 +163,6 @@ public class ShopUI : BaseUI
             },
             messageOverride: $"{item.Itemname}\n{item.Cost} 코인으로 구매하시겠습니까?"
         );
-    }
-
-    private void OnClickAction()
-    {
-        Debug.Log("[ShopUI] OnClickAction 호출됨");
-
-        if (_selectedItem == null) { Debug.LogWarning("[ShopUI] _selectedItem이 null"); return; }
-
-        Debug.Log($"[ShopUI] 선택 아이템: {_selectedItem.Itemname}, 보유여부: {IsOwned(_selectedItem)}");
-        Debug.Log($"[ShopUI] UIManager.Instance: {UIManager.Instance != null}");
-
-        if (!IsOwned(_selectedItem))
-        {
-            var captured = _selectedItem;
-            UIManager.Instance?.ShowPopupById(
-                "purchase_confirm",
-                contextActions: new Dictionary<string, Action>
-                {
-                    { "ConfirmPurchase", () => ExecutePurchase(captured) }
-                },
-                messageOverride: $"{captured.Itemname}\n{captured.Cost} 코인으로 구매하시겠습니까?"
-            );
-            return;
-        }
-
-        SelectItem(_selectedItem);
     }
 
     private void ExecutePurchase(ItemData item)

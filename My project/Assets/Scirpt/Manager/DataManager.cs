@@ -14,7 +14,7 @@ public class DataManager : MonoSingleton<DataManager>
         public int    gold           = 0;
         public int    highScore      = 0;
         public List<string> purchasedItems = new List<string>();
-        public string selectedHeadId = "slime_default";
+        public string selectedHeadId = "slime_base";
         public string selectedMapId  = "map_default";
     }
 

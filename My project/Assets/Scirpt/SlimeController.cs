@@ -218,7 +218,7 @@ public class SlimeController : MonoBehaviour
         int last = _babyTypes.Count - 1;
         if (_babyTypes[last] == _babyTypes[last - 1] && _babyTypes[last] == _babyTypes[last - 2])
         {
-            GameManager.Instance.AddScore(50);
+            GameManager.Instance.AddScore(GetComboScore(_babyTypes[last]));
             for (int i = 0; i < 3; i++)
             {
                 int targetIndex = _segments.Count - 1;
@@ -228,6 +228,24 @@ public class SlimeController : MonoBehaviour
                 _babyTypes.RemoveAt(targetIndex);
             }
         }
+    }
+
+    private int GetComboScore(FoodType comboType)
+    {
+        string selectedId = DataManager.Instance.SelectedHeadId;
+        var items = DataManager.Instance.DataTable.GetByType(ItemType.SlimeHead);
+        var head = items?.Find(i => i.Itemname == selectedId);
+        if (head == null) return 50;
+
+        bool isBonus = head.SlimeType switch
+        {
+            1 => comboType == FoodType.Red,    // 불 → Red
+            2 => comboType == FoodType.Blue,   // 얼음 → Blue
+            3 => comboType == FoodType.Green,  // 잔디 → Green
+            _ => false
+        };
+
+        return isBonus ? 80 : 50;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -260,16 +278,10 @@ public class SlimeController : MonoBehaviour
     /// <summary>상점에서 선택된 슬라임 헤드 스킨을 적용.</summary>
     private void ApplySelectedSkin()
     {
-        if (skinEntries == null || skinEntries.Length == 0) return;
-
         string selectedId = DataManager.Instance.SelectedHeadId;
-        foreach (var entry in skinEntries)
-        {
-            if (entry.itemId == selectedId && entry.sprite != null)
-            {
-                _sr.sprite = entry.sprite;
-                return;
-            }
-        }
+        var items = DataManager.Instance.DataTable.GetByType(ItemType.SlimeHead);
+        var item = items?.Find(i => i.Itemname == selectedId);
+        if (item != null && item.Icon != null)
+            _sr.sprite = item.Icon;
     }
 }
