@@ -49,9 +49,9 @@ public class CustomSceneManager : MonoSingleton<CustomSceneManager>
 
     }
 
-    public void ResetScnene(SceneType type)
+    public void ResetScene(SceneType type)
     {
-        ChangeScene(SceneType.GameScene);
+        ChangeScene(type);
     }
 
     public void ChangeScene(SceneType type)

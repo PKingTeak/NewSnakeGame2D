@@ -98,7 +98,6 @@ public class GameManager : MonoBehaviour
     {
         _score += amount;
         UIManager.Instance.UpdateScore(_score);
-        Debug.Log($"<color=yellow>Score: {_score}</color>");
     }
 
     public void PauseGame()

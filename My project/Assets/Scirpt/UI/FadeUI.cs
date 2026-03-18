@@ -2,9 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
-using Unity.VisualScripting;
-using UnityEditor.Rendering;
-using System.Diagnostics.Contracts;
 public class FadeUI : MonoBehaviour
 {
 

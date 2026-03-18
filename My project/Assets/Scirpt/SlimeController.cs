@@ -34,10 +34,12 @@ public class SlimeController : MonoBehaviour
     private Vector2 _inputDirection = Vector2.right;
     private float _timer;
     private SpriteRenderer _sr;
+    private SlimeAnimator _slimeAnimator;
 
     private void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
+        _slimeAnimator = GetComponent<SlimeAnimator>();
     }
 
     private void Start()
@@ -79,7 +81,7 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
-        #if UNITY_EDITOR || KEyBOARD_INPUT
+        #if UNITY_EDITOR || KEYBOARD_INPUT
         
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
@@ -165,6 +167,8 @@ public class SlimeController : MonoBehaviour
         // 방향에 따른 좌우 반전
         if (_direction == Vector2.right) _sr.flipX = true;
         else if (_direction == Vector2.left) _sr.flipX = false;
+
+        _slimeAnimator?.OnMove(_direction);
     }
 
     // 타일맵과 레이어 활성화 여부 검사
@@ -218,6 +222,7 @@ public class SlimeController : MonoBehaviour
         int last = _babyTypes.Count - 1;
         if (_babyTypes[last] == _babyTypes[last - 1] && _babyTypes[last] == _babyTypes[last - 2])
         {
+            _slimeAnimator?.OnCombo();
             GameManager.Instance.AddScore(GetComboScore(_babyTypes[last]));
             for (int i = 0; i < 3; i++)
             {
@@ -255,6 +260,7 @@ public class SlimeController : MonoBehaviour
             Food food = other.GetComponent<Food>();
             if (food != null)
             {
+                _slimeAnimator?.OnEat();
                 Grow(food.foodType);
                 GameManager.Instance.AddScore(10);
                 Destroy(other.gameObject);
@@ -265,6 +271,7 @@ public class SlimeController : MonoBehaviour
 
     private void GameOver(string reason)
     {
+        _slimeAnimator?.OnDeath();
         Time.timeScale = 0;
         GameManager.Instance.OnGameOver();
     }
