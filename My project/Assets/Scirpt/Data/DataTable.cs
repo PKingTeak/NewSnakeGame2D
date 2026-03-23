@@ -42,4 +42,7 @@ public class DataTable
     /// <summary>타입별 아이템 목록 반환</summary>
     public List<ItemData> GetByType(ItemType type)
         => _itemDataList.FindAll(i => i.Type == type);
+
+    /// <summary>전체 아이템 목록 (해금 조건 체크 등에 사용)</summary>
+    public IReadOnlyList<ItemData> AllItems => _itemDataList;
 }

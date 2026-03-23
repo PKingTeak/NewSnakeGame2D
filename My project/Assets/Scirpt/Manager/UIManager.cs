@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
@@ -15,6 +17,8 @@ public class UIManager : MonoBehaviour
     [Header("Main UI")]
     [SerializeField] private MainMenuUI mainMenuUI;
     [SerializeField] private ShopUI shopUI;
+
+    [SerializeField] private OptionUI optionUI; 
     [SerializeField] private CustomizationUI customizationUI;
 
     [Header("Modal")]
@@ -52,8 +56,11 @@ public class UIManager : MonoBehaviour
         InitGameplayUI();
         InitMainUI();
         SetupModalBlocker();
-        LoadPopupData();          // 팝업 JSON 로드
-        RegisterDefaultActions(); // 기본 액션 등록
+        LoadPopupData();
+        RegisterDefaultActions();
+        // 메인 메뉴 씬에서만 BGM 재생 (mainMenuUI가 있는 씬 = MainScene)
+        if (mainMenuUI != null)
+            SoundManager.Instance?.PlayBgm(BgmType.MainMenu);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -86,14 +93,31 @@ public class UIManager : MonoBehaviour
         if (mainMenuUI == null) return;
 
         mainMenuUI.Init();
-        mainMenuUI.SetCallbacks(OnClickStartGame, OpenShop, OpenCustom, OnClickSetting, OnClickQuit);
+
+        mainMenuUI.SetCallbacks(OnClickStartGame,()=> OpenUIPanel(shopUI), ()=>OpenUIPanel(optionUI),()=>OpenUIPanel(customizationUI),OnClickQuit);
+        //enum으로 내가 어떤 버튼인지 알려줘서 하나의 메서드로 여러개를 판별처리 하는게 
         mainMenuUI.Show();
 
         if (shopUI != null)
         {
             shopUI.Init();
-            shopUI.SetOnClose(CloseShop);
+            shopUI.SetOnClose(() => CloseUIPanel(shopUI));
             shopUI.Hide();
+        }
+
+        if(optionUI != null)
+        {
+            optionUI.Init();
+            optionUI.SetOnClose(() => CloseUIPanel(optionUI));
+            optionUI.Hide();
+
+        }
+
+        if(customizationUI != null)
+        {
+            customizationUI.Init();
+            customizationUI.SetOnClose(() => CloseUIPanel(customizationUI));
+            customizationUI.Hide();
         }
     }
 
@@ -232,29 +256,40 @@ public class UIManager : MonoBehaviour
     // 상점
     // ─────────────────────────────────────────────────────────────────────────
 
-    public void OpenShop()
+
+    public void OpenUIPanel(BaseUI _uiPanel)
     {
-        if (shopUI == null) return;
+        if(_uiPanel == null)
+        {
+            return;
+        }
 
+        SoundManager.Instance?.PlaySfx(SfxType.ButtonClick);
         SetModal(true);
-        shopUI.Show();
-
+        _uiPanel.Show();
         if (mainMenuUI != null)
+        {   
             mainMenuUI.Interactable(false);
+        }
+
     }
 
-    public void OpenCustom() { } //커스터마이징
-
-    public void CloseShop()
+    public void CloseUIPanel(BaseUI _uiPanel)
     {
-        if (shopUI != null)
-            shopUI.Hide();
+        if(_uiPanel == null)
+        {
+            return;
+        }
 
+        _uiPanel.Hide();
         if (mainMenuUI != null)
+        {   
             mainMenuUI.Interactable(true);
-
+        }
         SetModal(false);
     }
+  
+
 
     // ─────────────────────────────────────────────────────────────────────────
     // 씬 이벤트
@@ -269,10 +304,7 @@ public class UIManager : MonoBehaviour
         CustomSceneManager.Instance.ChangeScene(SceneType.GameScene);
     }
 
-    private void OnClickSetting()
-    {
-        ShowSimpleMessage("설정", "설정 UI는 아직 준비 중입니다.");
-    }
+   
 
     private void OnClickQuit()
     {

@@ -29,6 +29,16 @@
         { "label": "Cancel", "actionId": "Close" }
       ]
     },
+  {
+      "popupId": "confirm",
+      "title": "Confirm Action",
+      "message": "Are you sure you want to proceed?",
+      "showCloseButton": true,
+      "buttons": [
+        { "label": "OK", "actionId": "Close" }
+      ]
+  },
+
     {
       "popupId": "game_over",
       "title": "Game Over",

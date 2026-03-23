@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps; // 타일맵 시스템 사용
 
@@ -15,6 +17,11 @@ public class GameManager : MonoBehaviour
 
     private int _score = 0;
     private float time = 0.0f;
+    [Header("InGamePlayer")]
+    [SerializeField] private SlimeController slimeController; //최초 실행할때 한번 그냥 탐색
+
+    public SlimeController SlimeController{get{return slimeController;} private set { slimeController = value; }}
+
 
     private void Awake()
     {
@@ -23,6 +30,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        DataManager.Instance.ResetSessionCounts();
+        SoundManager.Instance?.PlayBgm(BgmType.Game);
         if (groundTilemap != null)
         {
             for (int i = 0; i < foodCount; i++)
@@ -112,6 +121,7 @@ public class GameManager : MonoBehaviour
 
     public void OnGameOver()
     {
+        SoundManager.Instance?.PlaySfx(SfxType.GameOver);
         DataManager.Instance.TryUpdateHighScore(_score);
         EventHub.Publish(_score); //점수 이벤트 넣어주기;
         UIManager.Instance.ShowGameOverPopup(_score, time);

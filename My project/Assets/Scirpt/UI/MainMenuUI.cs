@@ -3,15 +3,18 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class MainMenuUI : BaseUI
 {
+  
+
     [Header("Main Buttons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button shopButton;
     [SerializeField] private Button customButton;
     [SerializeField] private Button settingButton;
     [SerializeField] private Button quitButton;
-
+  
     private Action _onStart;
     private Action _onShop;
     private Action _onCustom;
@@ -19,7 +22,7 @@ public class MainMenuUI : BaseUI
     private Action _onQuit;
 
 
-   
+
 
     protected override void OnInitilze()
     {
@@ -31,7 +34,7 @@ public class MainMenuUI : BaseUI
         base.OnInitilze();
     }
 
-    public void SetCallbacks(Action onStart, Action onShop,Action onCustom, Action onSetting, Action onQuit)
+    public void SetCallbacks(Action onStart, Action onShop,  Action onSetting,Action onCustom, Action onQuit)
     {
         _onStart = onStart;
         _onShop = onShop;
@@ -46,10 +49,10 @@ public class MainMenuUI : BaseUI
         {
             return;
         }
-
+        
         targetButton.onClick.RemoveAllListeners();
         targetButton.onClick.AddListener(() => action?.Invoke());
     }
 
-    
+
 }

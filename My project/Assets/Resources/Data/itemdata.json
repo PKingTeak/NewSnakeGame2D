@@ -26,11 +26,23 @@
       },
       {
         "itemname": "slime_grass",
-        "itemInfo": "잔디 슬라임 - 초록 콤보 시 80점!",      
+        "itemInfo": "잔디 슬라임 - 초록 콤보 시 80점!",
         "cost": 1000,
         "iconPath": "Slime/Slime_grass_head",
         "type": 0,
         "slimeType": 3
+      },
+      {
+        "itemname": "slime_frostfire",
+        "itemInfo": "불꽃+얼음 슬라임 - 빨간/파란 콤보 시 보너스 점수!",
+        "cost": 500,
+        "iconPath": "Slime/Slime_frostfire_head",
+        "type": 0,
+        "slimeType": 4,
+        "unlockConditions": [
+          { "foodType": 0, "requiredCount": 50 },
+          { "foodType": 2, "requiredCount": 50 }
+        ]
       }
     ]
   }

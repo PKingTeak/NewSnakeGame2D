@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -125,19 +126,66 @@ public class ShopUI : BaseUI
     {
         if (detailIcon != null) detailIcon.sprite = item.Icon;
         if (detailName != null) detailName.text   = item.Itemname;
-        if (detailDesc != null) detailDesc.text   = item.ItemInfo;
 
         bool owned    = IsOwned(item);
         bool selected = IsSelected(item);
 
-        if (detailPrice != null)
-            detailPrice.text = owned ? "보유 중" : $"{item.Cost} 코인";
-
-        if (BuyButton != null)
-            BuyButton.interactable = !owned;
+        if (item.IsUnlockType)
+        {
+            bool unlocked = DataManager.Instance.IsUnlocked(item.Itemname); // 조건 달성 여부
+            if (owned)
+            {
+                // 구매 완료
+                if (detailDesc  != null) detailDesc.text  = item.ItemInfo;
+                if (detailPrice != null) detailPrice.text = "보유 중";
+                if (BuyButton   != null) BuyButton.gameObject.SetActive(false);
+            }
+            else if (unlocked)
+            {
+                // 조건 달성 → 골드로 구매 가능
+                if (detailDesc  != null) detailDesc.text  = item.ItemInfo + "\n✔ 해금 완료! 구매 가능합니다.";
+                if (detailPrice != null) detailPrice.text = $"{item.Cost} 코인";
+                if (BuyButton   != null) { BuyButton.gameObject.SetActive(true); BuyButton.interactable = true; }
+            }
+            else
+            {
+                // 아직 조건 미달성 → 진행도 표시
+                if (detailDesc  != null) detailDesc.text  = BuildUnlockProgressText(item);
+                if (detailPrice != null) detailPrice.text = "조건 미달성";
+                if (BuyButton   != null) BuyButton.gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            // 골드 구매 아이템
+            if (detailDesc  != null) detailDesc.text  = item.ItemInfo;
+            if (detailPrice != null) detailPrice.text = owned ? "보유 중" : $"{item.Cost} 코인";
+            if (BuyButton   != null)
+            {
+                BuyButton.gameObject.SetActive(true);
+                BuyButton.interactable = !owned;
+            }
+        }
 
         if (ApplyButton != null)
             ApplyButton.interactable = owned && !selected;
+    }
+
+    private static readonly string[] FoodNames = { "빨간 먹이", "초록 먹이", "파란 먹이" };
+
+    private string BuildUnlockProgressText(ItemData item)
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine(item.ItemInfo);
+        sb.AppendLine("[해금 조건] (이번 게임 또는 누적)");
+        foreach (var cond in item.UnlockConditions)
+        {
+            string foodName = cond.foodType < FoodNames.Length ? FoodNames[cond.foodType] : $"먹이{cond.foodType}";
+            int session = DataManager.Instance.GetSessionFoodCount((FoodType)cond.foodType);
+            int total   = DataManager.Instance.GetFoodEatenCount((FoodType)cond.foodType);
+            sb.AppendLine($"  {foodName}: 이번 게임 {session}/{cond.requiredCount}  |  누적 {total}/{cond.requiredCount}");
+        }
+        return sb.ToString().TrimEnd();
     }
 
     private void RefreshButtonSelectionState()
@@ -154,6 +202,8 @@ public class ShopUI : BaseUI
     private void OnBuyItem(ItemData item)
     {
         if (IsOwned(item)) return;
+        // 해금형 아이템은 조건 달성(IsUnlocked) 후에만 구매 가능
+        if (item.IsUnlockType && !DataManager.Instance.IsUnlocked(item.Itemname)) return;
 
         UIManager.Instance?.ShowPopupById(
             "purchase_confirm",
@@ -173,6 +223,7 @@ public class ShopUI : BaseUI
             return;
         }
 
+        SoundManager.Instance?.PlaySfx(SfxType.Purchase);
         UpdateCoinDisplay();
         SelectItem(item);
     }
@@ -190,9 +241,13 @@ public class ShopUI : BaseUI
 
     // ─── 유틸 ────────────────────────────────────────────────────────
 
-    /// <summary>cost == 0이면 기본 아이템, 아니면 구매 여부 확인</summary>
     private bool IsOwned(ItemData item)
-        => item.Cost == 0 || DataManager.Instance.IsPurchased(item.Itemname);
+    {
+        // 해금형: 조건 달성 후 골드로 구매해야 소유
+        if (item.IsUnlockType)
+            return DataManager.Instance.IsPurchased(item.Itemname);
+        return item.Cost == 0 || DataManager.Instance.IsPurchased(item.Itemname);
+    }
 
     private bool IsSelected(ItemData item)
     {

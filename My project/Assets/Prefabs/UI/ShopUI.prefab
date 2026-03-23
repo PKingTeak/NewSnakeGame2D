@@ -1899,8 +1899,6 @@ MonoBehaviour:
   detailName: {fileID: 0}
   detailDesc: {fileID: 4844892538488615760}
   detailPrice: {fileID: 8005571206932229753}
-  actionButton: {fileID: 0}
-  actionButtonText: {fileID: 0}
   BuyButton: {fileID: 8416982691552395221}
   ApplyButton: {fileID: 6677994854957039164}
 --- !u!1 &7027452797861528358

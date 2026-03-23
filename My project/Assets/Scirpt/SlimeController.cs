@@ -19,8 +19,8 @@ public class SlimeController : MonoBehaviour
     [SerializeField] private SlimeSkinData[] skinEntries;
 
     [Header("Settings")]
-    [SerializeField] private float moveInterval = 0.3f;
-    [SerializeField] float minmoveInterval = 0.1f;
+    [SerializeField] private float moveInterval = 0.08f;
+    [SerializeField] float minmoveInterval = 0.05f;
     [SerializeField] float moveSpeed = 0.0002f;
     public Transform babyPrefab;
 
@@ -34,12 +34,10 @@ public class SlimeController : MonoBehaviour
     private Vector2 _inputDirection = Vector2.right;
     private float _timer;
     private SpriteRenderer _sr;
-    private SlimeAnimator _slimeAnimator;
 
     private void Awake()
     {
         _sr = GetComponent<SpriteRenderer>();
-        _slimeAnimator = GetComponent<SlimeAnimator>();
     }
 
     private void Start()
@@ -64,6 +62,8 @@ public class SlimeController : MonoBehaviour
         ApplySelectedSkin();
     }
 
+
+
     private void Update()
     {
         HandleInput();
@@ -81,7 +81,7 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
-        #if UNITY_EDITOR || KEYBOARD_INPUT
+        #if UNITY_EDITOR || KEyBOARD_INPUT
         
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
@@ -167,8 +167,6 @@ public class SlimeController : MonoBehaviour
         // 방향에 따른 좌우 반전
         if (_direction == Vector2.right) _sr.flipX = true;
         else if (_direction == Vector2.left) _sr.flipX = false;
-
-        _slimeAnimator?.OnMove(_direction);
     }
 
     // 타일맵과 레이어 활성화 여부 검사
@@ -222,8 +220,8 @@ public class SlimeController : MonoBehaviour
         int last = _babyTypes.Count - 1;
         if (_babyTypes[last] == _babyTypes[last - 1] && _babyTypes[last] == _babyTypes[last - 2])
         {
-            _slimeAnimator?.OnCombo();
-            GameManager.Instance.AddScore(GetComboScore(_babyTypes[last]));
+            SoundManager.Instance?.PlaySfx(SfxType.Combo);
+            GameManager.Instance.AddScore(50);
             for (int i = 0; i < 3; i++)
             {
                 int targetIndex = _segments.Count - 1;
@@ -235,24 +233,6 @@ public class SlimeController : MonoBehaviour
         }
     }
 
-    private int GetComboScore(FoodType comboType)
-    {
-        string selectedId = DataManager.Instance.SelectedHeadId;
-        var items = DataManager.Instance.DataTable.GetByType(ItemType.SlimeHead);
-        var head = items?.Find(i => i.Itemname == selectedId);
-        if (head == null) return 50;
-
-        bool isBonus = head.SlimeType switch
-        {
-            1 => comboType == FoodType.Red,    // 불 → Red
-            2 => comboType == FoodType.Blue,   // 얼음 → Blue
-            3 => comboType == FoodType.Green,  // 잔디 → Green
-            _ => false
-        };
-
-        return isBonus ? 80 : 50;
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Food"))
@@ -260,9 +240,11 @@ public class SlimeController : MonoBehaviour
             Food food = other.GetComponent<Food>();
             if (food != null)
             {
-                _slimeAnimator?.OnEat();
                 Grow(food.foodType);
+                SoundManager.Instance?.PlaySfx(SfxType.FoodEat);
                 GameManager.Instance.AddScore(10);
+                DataManager.Instance.AddFoodEaten(food.foodType); // 해금 시스템용 먹이 카운트
+                //풀링 해야될듯
                 Destroy(other.gameObject);
                 GameManager.Instance.SpawnFood();
             }
@@ -271,7 +253,6 @@ public class SlimeController : MonoBehaviour
 
     private void GameOver(string reason)
     {
-        _slimeAnimator?.OnDeath();
         Time.timeScale = 0;
         GameManager.Instance.OnGameOver();
     }
@@ -285,10 +266,26 @@ public class SlimeController : MonoBehaviour
     /// <summary>상점에서 선택된 슬라임 헤드 스킨을 적용.</summary>
     private void ApplySelectedSkin()
     {
+        if (skinEntries == null || skinEntries.Length == 0) return;
+
         string selectedId = DataManager.Instance.SelectedHeadId;
-        var items = DataManager.Instance.DataTable.GetByType(ItemType.SlimeHead);
-        var item = items?.Find(i => i.Itemname == selectedId);
-        if (item != null && item.Icon != null)
-            _sr.sprite = item.Icon;
+        foreach (var entry in skinEntries)
+        {
+            if (entry.itemId == selectedId && entry.sprite != null)
+            {
+                _sr.sprite = entry.sprite;
+                return;
+            }
+        }
+    }
+
+    public void SetInputDirection(Vector2 _dir)
+    {
+
+        if(_dir != Vector2.zero && _dir != -_direction) //반대 방향 안돼
+        {
+            _inputDirection = _dir;
+
+        }
     }
 }
