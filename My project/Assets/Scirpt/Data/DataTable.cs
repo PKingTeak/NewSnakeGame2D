@@ -10,7 +10,14 @@ public class DataTable
         public List<ItemData> itemDataList;
     }
 
-    private List<ItemData>               _itemDataList = new List<ItemData>();
+    [Serializable]
+    private class FoodDataWrapper
+    {
+        public List<FoodData> foodDataList;
+    }
+
+    private List<ItemData> _itemDataList = new List<ItemData>();
+    private List<FoodData> _foodDataList = new List<FoodData>();
     private Dictionary<string, ItemData> _dict;
 
     public void Init()
@@ -33,6 +40,19 @@ public class DataTable
         }
 
         Debug.Log($"[DataTable] 아이템 {_itemDataList.Count}개 로드 완료.");
+
+        //FoodData 로드
+        TextAsset foodJson = Resources.Load<TextAsset>("Data/Food");
+        if (foodJson == null)
+        {
+            Debug.LogWarning("[DataTable] Resources/Data/Food.json 을 찾을 수 없습니다.");
+            return;
+        }
+
+        var foodWrapper = JsonUtility.FromJson<FoodDataWrapper>(foodJson.text);
+        _foodDataList = foodWrapper.foodDataList ?? new List<FoodData>();
+
+
     }
 
     /// <summary>itemname으로 아이템 단건 조회 (없으면 null)</summary>
@@ -44,5 +64,9 @@ public class DataTable
         => _itemDataList.FindAll(i => i.Type == type);
 
     /// <summary>전체 아이템 목록 (해금 조건 체크 등에 사용)</summary>
+
+    /// 전체 먹이 목록 조희
+    public IReadOnlyList<FoodData> AllFoods => _foodDataList;
+
     public IReadOnlyList<ItemData> AllItems => _itemDataList;
 }

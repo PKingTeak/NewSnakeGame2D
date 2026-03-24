@@ -300,6 +300,7 @@ MonoBehaviour:
   - {fileID: -7729209229195754053, guid: ec33c70543299f948b5a465946054fca, type: 3}
   - {fileID: 2422435028658509130, guid: 8593702b8cd2a7843893b3989902d63c, type: 3}
   - {fileID: 3433343698018100192, guid: d8f2ddd53b83266409b0c34c64395b9f, type: 3}
+  - {fileID: 3433343698018100192, guid: d8f2ddd53b83266409b0c34c64395b9f, type: 3}
   skinEntries: []
   moveInterval: 0.3
   minmoveInterval: 0.1

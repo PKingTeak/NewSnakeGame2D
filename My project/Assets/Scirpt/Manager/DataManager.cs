@@ -22,6 +22,7 @@ public class DataManager : MonoSingleton<DataManager>
         // 조건 달성으로 해금된 아이템 ID 목록
         public List<string> unlockedItems = new List<string>();
 
+
         // 사운드 볼륨 (0~1)
         public float bgmVolume = 1f;
         public float sfxVolume = 1f;
@@ -172,6 +173,27 @@ public class DataManager : MonoSingleton<DataManager>
         return _data.foodEatenCounts[idx];
     }
 
+    ///<summary>해금한 먹이들 조회</summary>
+    public FoodType[] GetAvailableFoodType()
+    {
+        List<FoodType> foods = new List<FoodType>
+        {
+            FoodType.fire,
+            FoodType.grass,
+            FoodType.ice
+        };
+
+        foreach(FoodData food in DataTable.AllFoods)
+        {
+            if(IsPurchased(food.UnlockedBySlime))
+            {
+                foods.Add((FoodType)food.EnumIndex);
+            }
+        }
+
+        return foods.ToArray();
+    }
+     
     /// <summary>현재 세션(이번 한 게임)의 먹이 횟수 조회.</summary>
     public int GetSessionFoodCount(FoodType foodType)
     {

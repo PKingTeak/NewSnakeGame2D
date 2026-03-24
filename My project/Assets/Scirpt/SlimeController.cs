@@ -149,7 +149,7 @@ public class SlimeController : MonoBehaviour
         // 2. 자기 몸 충돌 체크
         for (int i = 1; i < _targetPositions.Count; i++)
         {
-            if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.1f)
+            if (Vector3.Distance(nextPos, _targetPositions[i]) < 0.05f)
             {
                 GameOver("자신의 몸에 충돌했습니다!");
                 return;

@@ -2,18 +2,21 @@ using UnityEngine;
 
 public enum FoodType
 {
-    Red,
-    Green,
-    Blue
+    fire,
+    grass,
+    ice,
+    smoke,
+    magma,
+    poison
 }
 
 public class Food : MonoBehaviour
 {
-    public FoodType foodType; // ÀÎ½ºÆåÅÍ¿¡¼­ ¼³Á¤ÇÏ°Å³ª »ý¼º ½Ã ·£´ý ºÎ¿©
+    public FoodType foodType; // ï¿½Î½ï¿½ï¿½ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î¿ï¿½
     public SpriteRenderer spriteRenderer;
 
     public Sprite[] foodSprite;
-    // »ö»óÀ» ½Ã°¢ÀûÀ¸·Î ¹Ý¿µÇÏ±â À§ÇÑ ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ý¿ï¿½ï¿½Ï±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void SetType(FoodType type)
     {
         foodType = type;

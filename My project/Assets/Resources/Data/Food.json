@@ -1,0 +1,19 @@
+{
+  "foodDataList": [
+    {
+      "id": "Smoke",
+      "enumindex": 3,
+      "unlockedBySlime": "slime_smoke"
+    },
+    {
+      "id": "Magma",
+      "enumindex": 4,
+      "unlockedBySlime": "slime_magma"
+    },
+    {
+      "id": "Poison",
+      "enumindex": 5,
+      "unlockedBySlime": "slime_poison"
+    }
+  ]
+}
