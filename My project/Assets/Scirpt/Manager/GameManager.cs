@@ -89,9 +89,11 @@ public class GameManager : MonoBehaviour
         {
             GameObject obj = Instantiate(foodPrefab, spawnPos, Quaternion.identity);
             Food foodScript = obj.GetComponent<Food>();
+            FoodType[] available = DataManager.Instance.GetAvailableFoodType();
             if (foodScript != null)
             {
-                foodScript.SetType((FoodType)Random.Range(0, 3));
+                //여기 추가 
+                foodScript.SetType(available[Random.Range(0,available.Length)]);
             }
         }
     }

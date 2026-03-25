@@ -102,7 +102,8 @@ public class ShopUI : BaseUI
 
             var btn = Instantiate(itemButtonPrefab, itemContainer);
             var captured = item;
-            btn.Setup(item, IsOwned(item), IsSelected(item), () => OnSelectItem(captured), () => OnBuyItem(captured));
+            bool isRevealed = !item.IsUnlockType || IsOwned(item) || DataManager.Instance.IsUnlocked(item.Itemname);
+            btn.Setup(item, IsOwned(item), IsSelected(item), isRevealed, () => OnSelectItem(captured), () => OnBuyItem(captured));
             _spawnedButtons.Add(btn);
         }
 
@@ -113,7 +114,7 @@ public class ShopUI : BaseUI
 
     private void OnSelectItem(ItemData item)
     {
-        Debug.Log($"[ShopUI] 아이템 선택: {item.Itemname}");
+      
         _selectedItem = item;
         UpdateDetail(item);
         RefreshButtonSelectionState();
@@ -152,7 +153,7 @@ public class ShopUI : BaseUI
                 // 아직 조건 미달성 → 진행도 표시
                 if (detailDesc  != null) detailDesc.text  = BuildUnlockProgressText(item);
                 if (detailPrice != null) detailPrice.text = "조건 미달성";
-                if (BuyButton   != null) BuyButton.gameObject.SetActive(false);
+                if (BuyButton   != null) BuyButton.interactable =false;
             }
         }
         else
@@ -171,19 +172,19 @@ public class ShopUI : BaseUI
             ApplyButton.interactable = owned && !selected;
     }
 
-    private static readonly string[] FoodNames = { "빨간 먹이", "초록 먹이", "파란 먹이" };
+    private static readonly string[] FoodNames = { "불", "풀", "얼음" };
 
     private string BuildUnlockProgressText(ItemData item)
     {
         var sb = new StringBuilder();
-        sb.AppendLine(item.ItemInfo);
-        sb.AppendLine("[해금 조건] (이번 게임 또는 누적)");
+        sb.AppendLine("???");
+        sb.AppendLine("[해금 조건] (해당 라운드 먹이 획득)");
         foreach (var cond in item.UnlockConditions)
         {
             string foodName = cond.foodType < FoodNames.Length ? FoodNames[cond.foodType] : $"먹이{cond.foodType}";
             int session = DataManager.Instance.GetSessionFoodCount((FoodType)cond.foodType);
             int total   = DataManager.Instance.GetFoodEatenCount((FoodType)cond.foodType);
-            sb.AppendLine($"  {foodName}: 이번 게임 {session}/{cond.requiredCount}  |  누적 {total}/{cond.requiredCount}");
+            sb.AppendLine($"  {foodName}: 해당 라운드 {session}/{cond.requiredCount}");
         }
         return sb.ToString().TrimEnd();
     }

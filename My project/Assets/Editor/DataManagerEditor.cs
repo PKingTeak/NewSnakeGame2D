@@ -38,4 +38,13 @@ public static class DataManagerEditor
     {
         EditorUtility.RevealInFinder(SavePath);
     }
+
+    [MenuItem("Tool/Player Data/Get Gold +1000")]
+    static void AddGold()
+    {
+        DataManager.Instance.Data.gold += 1000;
+        DataManager.Instance.Save();
+        Debug.Log("[DataManagerEditor] 골드 +1000");
+
+    }
 }

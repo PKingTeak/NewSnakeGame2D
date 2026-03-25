@@ -15,6 +15,9 @@ public class ShopItemButtonUI : MonoBehaviour, IPointerClickHandler
     [SerializeField] private TMP_Text    priceText;
     [SerializeField] private GameObject  lockedOverlay;
     [SerializeField] private GameObject  selectedBorder;
+    
+    [SerializeField] private Sprite lockedSprite; //미해금 슬라임 및 아이템
+
 
     [SerializeField] private Button buyButton;
 
@@ -26,16 +29,16 @@ public class ShopItemButtonUI : MonoBehaviour, IPointerClickHandler
         _onClick?.Invoke();
     }
 
-    public void Setup(ItemData data, bool isPurchased, bool isSelected, Action onClick, Action onBuy = null)
+    public void Setup(ItemData data, bool isPurchased, bool isSelected, bool isRevealed, Action onClick, Action onBuy = null)
     {
         _onClick = onClick;
         _onBuy   = onBuy;
 
-        if (iconImage != null && data.Icon != null)
-            iconImage.sprite = data.Icon;
+        if (iconImage != null)
+            iconImage.sprite = isRevealed && data.Icon != null ? data.Icon : lockedSprite;
 
         if (nameText != null)
-            nameText.text = data.Itemname;
+            nameText.text = isRevealed ? data.Itemname : "??";
 
         if (priceText != null)
             priceText.text = data.Cost.ToString();

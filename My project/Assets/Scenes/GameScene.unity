@@ -300,8 +300,10 @@ MonoBehaviour:
   - {fileID: -7729209229195754053, guid: ec33c70543299f948b5a465946054fca, type: 3}
   - {fileID: 2422435028658509130, guid: 8593702b8cd2a7843893b3989902d63c, type: 3}
   - {fileID: 3433343698018100192, guid: d8f2ddd53b83266409b0c34c64395b9f, type: 3}
-  - {fileID: 3433343698018100192, guid: d8f2ddd53b83266409b0c34c64395b9f, type: 3}
-  skinEntries: []
+  - {fileID: -3832680340932164784, guid: e61db48fe7445654a9e8d028fb8cfad8, type: 3}
+  - {fileID: 881492933971526163, guid: 5afc002932a71144aa20403491e9091b, type: 3}
+  - {fileID: -314381326533364179, guid: 119f8a1240d660a47907aad8bf8f5793, type: 3}
+  - {fileID: 8656743109344991434, guid: 206342040727f0541a6983a043a30403, type: 3}
   moveInterval: 0.3
   minmoveInterval: 0.1
   moveSpeed: 0.005

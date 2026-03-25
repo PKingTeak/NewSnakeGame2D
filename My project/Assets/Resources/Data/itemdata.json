@@ -14,15 +14,21 @@
         "cost": 1000,
         "iconPath": "Slime/Slime_fire_head",
         "type": 0,
-        "slimeType": 1
+        "slimeType": 1,
+        "comboBonuses": [
+          { "foodType": 0, "BonusPoints": 30 }
+        ]
       },
       {
         "itemname": "slime_ice",
-        "itemInfo": "얼음 슬라임 - 얼음 콤보 시 80점!",      
+        "itemInfo": "얼음 슬라임 - 얼음 콤보 시 80점!",
         "cost": 1000,
         "iconPath": "Slime/Slime_ice_head",
         "type": 0,
-        "slimeType": 2
+        "slimeType": 2,
+        "comboBonuses": [
+          { "foodType": 2, "BonusPoints": 30 }
+        ]
       },
       {
         "itemname": "slime_grass",
@@ -30,19 +36,64 @@
         "cost": 1000,
         "iconPath": "Slime/Slime_grass_head",
         "type": 0,
-        "slimeType": 3
+        "slimeType": 3,
+        "comboBonuses": [
+          { "foodType": 1, "BonusPoints": 30 }
+        ]
       },
-      {
-        "itemname": "slime_frostfire",
-        "itemInfo": "불꽃+얼음 슬라임 - 빨간/파란 콤보 시 보너스 점수!",
-        "cost": 500,
-        "iconPath": "Slime/Slime_frostfire_head",
+      { 
+        "itemname": "slime_smoke",
+        "itemInfo": "연기 슬라임 - 빨간/파란 콤보 시 보너스 점수! + 연기먹이 등장",
+        "cost": 2000,
+        "iconPath": "Slime/Slime_smoke_head",
         "type": 0,
         "slimeType": 4,
         "unlockConditions": [
           { "foodType": 0, "requiredCount": 50 },
           { "foodType": 2, "requiredCount": 50 }
+        ],
+        "comboBonuses": [
+          {"foodType" : 0, "BonusPoints" : 30},
+          {"foodType" : 2,"BonusPoints" : 30},
+          {"foodType" : 3 ,"BonusPoints" :50 }
         ]
+
+      },
+      {
+        "itemname": "slime_poison",
+        "itemInfo": "독 슬라임 - 독 콤보 시 보너스 점수! + 독먹이 등장",
+        "cost": 2000,
+        "iconPath": "Slime/Slime_poison_head",
+        "type": 0,
+        "slimeType": 6,
+        "unlockConditions": [
+          {"foodType":1 ,"requiredCount" : 50},
+          {"foodType":2 , "requiredCount" : 50}
+        ],
+        "comboBonuses": [
+          {"foodType":1 , "BonusPoints" :30},
+          {"foodType" :2 , "BonusPoints":30},
+          { "foodType": 5, "BonusPoints": 50 }
+        ]
+      },
+      {
+        "itemname": "slime_lava",
+        "itemInfo": "용암 슬라임 - 빨간/초록 콤보 시 보너스 점수! + 용암먹이 등장",
+        "cost": 2000,
+        "iconPath": "Slime/Slime_lava_head",
+        "type": 0,
+        "slimeType": 4,
+        "unlockConditions": [
+          { "foodType": 0, "requiredCount": 50 },
+          { "foodType": 2, "requiredCount": 50 }
+        ],
+        "comboBonuses": [
+          {"foodType" : 0, "BonusPoints" : 30},
+          {"foodType" : 1,"BonusPoints" : 30},
+          {"foodType" : 4 ,"BonusPoints" :50 }
+        ]
+
       }
+     
     ]
   }

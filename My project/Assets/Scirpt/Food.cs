@@ -6,8 +6,9 @@ public enum FoodType
     grass,
     ice,
     smoke,
-    magma,
-    poison
+    lava,
+    poison,
+    electric
 }
 
 public class Food : MonoBehaviour

@@ -276,7 +276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -3364456233560078666, guid: 11bb553058180ae479f54431099540e4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -344,6 +344,7 @@ MonoBehaviour:
   priceText: {fileID: 8309987583708672391}
   lockedOverlay: {fileID: 0}
   selectedBorder: {fileID: 872346374997701995}
+  lockedSprite: {fileID: -3364456233560078666, guid: 11bb553058180ae479f54431099540e4, type: 3}
   buyButton: {fileID: 7602887408097866651}
 --- !u!1 &5603325662282008053
 GameObject:

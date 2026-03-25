@@ -1,22 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem.Controls;
-
-[System.Serializable]
-public struct SlimeSkinData
-{
-    public string itemId;
-    public Sprite sprite;
-}
 
 public class SlimeController : MonoBehaviour
 {
+    [Header("SlimeInfo")]
+    private ItemData curSlimeData;
+
     [Header("Sprites")]
     public Sprite headSprite;
     public Sprite[] babySlimeSprites;
-
-    [Header("Skin Overrides (상점 연동)")]
-    [SerializeField] private SlimeSkinData[] skinEntries;
 
     [Header("Settings")]
     [SerializeField] private float moveInterval = 0.08f;
@@ -81,49 +73,49 @@ public class SlimeController : MonoBehaviour
 
     private void HandleInput()
     {
-        #if UNITY_EDITOR || KEyBOARD_INPUT
-        
+#if UNITY_EDITOR || KEyBOARD_INPUT
+
         if (Input.GetKeyDown(KeyCode.UpArrow) && _direction != Vector2.down) _inputDirection = Vector2.up;
         else if (Input.GetKeyDown(KeyCode.DownArrow) && _direction != Vector2.up) _inputDirection = Vector2.down;
         else if (Input.GetKeyDown(KeyCode.LeftArrow) && _direction != Vector2.right) _inputDirection = Vector2.left;
         else if (Input.GetKeyDown(KeyCode.RightArrow) && _direction != Vector2.left) _inputDirection = Vector2.right;
-        #endif
+#endif
 
         //모바일 터치화면
-        if(Input.touchCount >0)
+        if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
 
-            if(touch.phase == TouchPhase.Began)
+            if (touch.phase == TouchPhase.Began)
             {
                 startTouchPosition = touch.position;
             }
-            else if(touch.phase == TouchPhase.Ended)
+            else if (touch.phase == TouchPhase.Ended)
             {
                 Vector2 endTouchPosition = touch.position;
                 Vector2 delta = endTouchPosition - startTouchPosition;
-                if(delta.magnitude <30)
+                if (delta.magnitude < 30)
                 {
                     return; //너무 작은 반지름은 터치 실수 유발
                 }
-                if(Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
+                if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
                 {
-                    if(delta.x>0 && _direction != Vector2.left)
+                    if (delta.x > 0 && _direction != Vector2.left)
                     {
                         _inputDirection = Vector2.right;
                     }
-                    else if(delta.x<0 && _direction != Vector2.right)
+                    else if (delta.x < 0 && _direction != Vector2.right)
                     {
                         _inputDirection = Vector2.left;
                     }
                 }
                 else
                 {
-                    if(delta.y > 0 && _direction != Vector2.down)
+                    if (delta.y > 0 && _direction != Vector2.down)
                     {
                         _inputDirection = Vector2.up;
                     }
-                    else if(delta.y < 0 && _direction != Vector2.up)
+                    else if (delta.y < 0 && _direction != Vector2.up)
                     {
                         _inputDirection = Vector2.down;
                     }
@@ -195,7 +187,7 @@ public class SlimeController : MonoBehaviour
         }
     }
 
-    private void Grow(FoodType type)
+    private void Grow(FoodType type) //스킨 적용 해결하면 추가해야함
     {
         if (babyPrefab == null) return;
 
@@ -221,11 +213,16 @@ public class SlimeController : MonoBehaviour
         if (_babyTypes[last] == _babyTypes[last - 1] && _babyTypes[last] == _babyTypes[last - 2])
         {
             SoundManager.Instance?.PlaySfx(SfxType.Combo);
-            GameManager.Instance.AddScore(50);
+            //점수 계산후 score넣기 
+            var entry = curSlimeData?.ComboBonuses?.Find(e =>e.foodType == (int) _babyTypes[last]);
+            int bonus = entry != null ? entry.BonusPoints :0;
+            GameManager.Instance.AddScore(50+bonus);
+            
+         
             for (int i = 0; i < 3; i++)
             {
                 int targetIndex = _segments.Count - 1;
-                Destroy(_segments[targetIndex].gameObject);
+                Destroy(_segments[targetIndex].gameObject); //풀링해야함 
                 _segments.RemoveAt(targetIndex);
                 _targetPositions.RemoveAt(targetIndex);
                 _babyTypes.RemoveAt(targetIndex);
@@ -242,7 +239,7 @@ public class SlimeController : MonoBehaviour
             {
                 Grow(food.foodType);
                 SoundManager.Instance?.PlaySfx(SfxType.FoodEat);
-                GameManager.Instance.AddScore(10);
+                GameManager.Instance.AddScore(10); //기본점수
                 DataManager.Instance.AddFoodEaten(food.foodType); // 해금 시스템용 먹이 카운트
                 //풀링 해야될듯
                 Destroy(other.gameObject);
@@ -266,23 +263,32 @@ public class SlimeController : MonoBehaviour
     /// <summary>상점에서 선택된 슬라임 헤드 스킨을 적용.</summary>
     private void ApplySelectedSkin()
     {
-        if (skinEntries == null || skinEntries.Length == 0) return;
 
         string selectedId = DataManager.Instance.SelectedHeadId;
-        foreach (var entry in skinEntries)
+        ItemData item = DataManager.Instance.DataTable.GetItem(selectedId);
+        if (item == null)
         {
-            if (entry.itemId == selectedId && entry.sprite != null)
-            {
-                _sr.sprite = entry.sprite;
-                return;
-            }
+            Debug.LogWarning($"[SlimeController] 선택된 아이템 ID에 해당하는 데이터가 없습니다: {selectedId}");
+            return;
         }
+
+        if(item != null)
+        {
+        curSlimeData = item;
+        }
+        Sprite sprite = item.Icon;
+        
+        if(sprite != null)
+        {
+        _sr.sprite = item.Icon;
+        }
+
     }
 
     public void SetInputDirection(Vector2 _dir)
     {
 
-        if(_dir != Vector2.zero && _dir != -_direction) //반대 방향 안돼
+        if (_dir != Vector2.zero && _dir != -_direction) //반대 방향 안돼
         {
             _inputDirection = _dir;
 
